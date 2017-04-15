@@ -51,7 +51,7 @@
 
         href="http://node-tap.org/"
 
-    >tap (v10.3.1)</a>
+    >tap (v10.3.2)</a>
 </h1>
 <h4>A Test-Anything-Protocol library</h4>
 <div class="apidocSectionDiv"><a
@@ -748,12 +748,6 @@
         <li>
 
             <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">tap.</span>results</span>
-
-        </li>
-
-        <li>
-
-            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">tap.</span>stack</span>
 
         </li>
 
@@ -1492,31 +1486,6 @@
 
     </ol></li>
 
-    <li class="apidocModuleLi"><a href="#apidoc.module.tap.stack">module tap.stack</a><ol>
-
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.tap.stack._wrapCallSite">
-            function <span class="apidocSignatureSpan">tap.stack.</span>_wrapCallSite
-            <span class="apidocSignatureSpan">(frame)</span>
-            </a>
-
-        </li>
-
-        <li>
-
-            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">tap.stack.</span>_internals</span>
-
-        </li>
-
-        <li>
-
-            <span class="apidocSignatureSpan">string <span class="apidocSignatureSpan">tap.stack.</span>_cwd</span>
-
-        </li>
-
-    </ol></li>
-
 </ol></div>
 
 <div class="apidocSectionDiv">
@@ -2184,22 +2153,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">push = function () { [native code] }</pre></li>
-    <li>example usage<pre class="apidocCodePre">...
-  })
-  return obj
-}
-
-function multiword_ (str) {
-  var res = [ str ]
-  if (str.match(/[A-Z]/)) {
-    res.<span class="apidocCodeKeywordSpan">push</span>(str.toLowerCase())
-    res.push(str.replace(/[A-Z]/g, function ($0) {
-      return &#x27;_&#x27; + $0.toLowerCase()
-    }))
-  }
-  return res
-}
-...</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
 
 
@@ -2316,23 +2270,7 @@ function multiword_ (str) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">test = function () { [native code] }</pre></li>
-    <li>example usage<pre class="apidocCodePre">...
-  if (source.stack)
-    target.stack = source.stack
-  return false
-}
-
-return !(propertyName === &#x27;todo&#x27; ||
-propertyName === &#x27;time&#x27; ||
-/^_?tapChild/.<span class="apidocCodeKeywordSpan">test</span>(propertyName) ||
-/^tapStream/.test(propertyName) ||
-/^tapMochaTest/.test(propertyName) ||
-propertyName === &#x27;cb&#x27; ||
-propertyName === &#x27;name&#x27; ||
-propertyName === &#x27;indent&#x27; ||
-propertyName === &#x27;skip&#x27; ||
-propertyName === &#x27;bail&#x27; ||
-...</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
 
 
@@ -2373,8 +2311,6 @@ propertyName === &#x27;bail&#x27; ||
     <li>description and source-code<pre class="apidocCodePre">writeSubComment = function () { [native code] }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
-
-
 
 
 
@@ -2964,22 +2900,7 @@ propertyName === &#x27;bail&#x27; ||
   // this.debug(this._readableState)
   return Readable.prototype.push.call(this, c, e)
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">...
-  })
-  return obj
-}
-
-function multiword_ (str) {
-  var res = [ str ]
-  if (str.match(/[A-Z]/)) {
-    res.<span class="apidocCodeKeywordSpan">push</span>(str.toLowerCase())
-    res.push(str.replace(/[A-Z]/g, function ($0) {
-      return &#x27;_&#x27; + $0.toLowerCase()
-    }))
-  }
-  return res
-}
-...</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
 
 
@@ -4316,23 +4237,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
   extra = parseTestArgs(name, extra, cb)
   return this.sub(Test, extra, test)
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">...
-  if (source.stack)
-    target.stack = source.stack
-  return false
-}
-
-return !(propertyName === &#x27;todo&#x27; ||
-propertyName === &#x27;time&#x27; ||
-/^_?tapChild/.<span class="apidocCodeKeywordSpan">test</span>(propertyName) ||
-/^tapStream/.test(propertyName) ||
-/^tapMochaTest/.test(propertyName) ||
-propertyName === &#x27;cb&#x27; ||
-propertyName === &#x27;name&#x27; ||
-propertyName === &#x27;indent&#x27; ||
-propertyName === &#x27;skip&#x27; ||
-propertyName === &#x27;bail&#x27; ||
-...</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
 
 
@@ -4804,71 +4709,6 @@ propertyName === &#x27;bail&#x27; ||
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
-
-
-</div>
-
-<div class="apidocSectionDiv">
-<h1><a href="#apidoc.module.tap.stack" id="apidoc.module.tap.stack">module tap.stack</a></h1>
-
-
-    <h2>
-        <a href="#apidoc.element.tap.stack._wrapCallSite" id="apidoc.element.tap.stack._wrapCallSite">
-        function <span class="apidocSignatureSpan">tap.stack.</span>_wrapCallSite
-        <span class="apidocSignatureSpan">(frame)</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">function wrapCallSite(frame) {
-  if(frame.isNative()) {
-    return frame;
-  }
-
-  // Most call sites will return the source file from getFileName(), but code
-  // passed to eval() ending in &#x22;//# sourceURL=...&#x22; will return the source file
-  // from getScriptNameOrSourceURL() instead
-  var source = frame.getFileName() || frame.getScriptNameOrSourceURL();
-  if (source) {
-    var line = frame.getLineNumber();
-    var column = frame.getColumnNumber() - 1;
-
-    // Fix position in Node where some (internal) code is prepended.
-    // See https://github.com/evanw/node-source-map-support/issues/36
-    if (line === 1 &#x26;&#x26; !isInBrowser() &#x26;&#x26; !frame.isEval()) {
-      column -= 62;
-    }
-
-    var position = mapSourcePosition({
-      source: source,
-      line: line,
-      column: column
-    });
-    frame = cloneCallSite(frame);
-    frame.getFileName = function() { return position.source; };
-    frame.getLineNumber = function() { return position.line; };
-    frame.getColumnNumber = function() { return position.column + 1; };
-    frame.getScriptNameOrSourceURL = function() { return position.source; };
-    return frame;
-  }
-
-  // Code called using eval() needs special handling
-  var origin = frame.isEval() &#x26;&#x26; frame.getEvalOrigin();
-  if (origin) {
-    origin = mapEvalOrigin(origin);
-    frame = cloneCallSite(frame);
-    frame.getEvalOrigin = function() { return origin; };
-    return frame;
-  }
-
-  // If we get here then we were unable to change the source position
-  return frame;
-}</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
-    </ul>
-
-
-
-
 
 
 </div>
