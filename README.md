@@ -1,11 +1,13 @@
-# api documentation for  [tap (v10.3.1)](http://node-tap.org/)  [![npm package](https://img.shields.io/npm/v/npmdoc-tap.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-tap) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-tap.svg)](https://travis-ci.org/npmdoc/node-npmdoc-tap)
+# api documentation for  [tap (v10.3.2)](http://node-tap.org/)  [![npm package](https://img.shields.io/npm/v/npmdoc-tap.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-tap) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-tap.svg)](https://travis-ci.org/npmdoc/node-npmdoc-tap)
 #### A Test-Anything-Protocol library
 
-[![NPM](https://nodei.co/npm/tap.png?downloads=true)](https://www.npmjs.com/package/tap)
+[![NPM](https://nodei.co/npm/tap.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/tap)
 
-[![apidoc](https://npmdoc.github.io/node-npmdoc-tap/build/screen-capture.buildNpmdoc.browser._2Fhome_2Ftravis_2Fbuild_2Fnpmdoc_2Fnode-npmdoc-tap_2Ftmp_2Fbuild_2Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-tap/build..beta..travis-ci.org/apidoc.html)
+[![apidoc](https://npmdoc.github.io/node-npmdoc-tap/build/screenCapture.buildCi.browser.apidoc.html.png)](https://npmdoc.github.io/node-npmdoc-tap/build/apidoc.html)
 
-![package-listing](https://npmdoc.github.io/node-npmdoc-tap/build/screen-capture.npmPackageListing.svg)
+![npmPackageListing](https://npmdoc.github.io/node-npmdoc-tap/build/screenCapture.npmPackageListing.svg)
+
+![npmPackageDependencyTree](https://npmdoc.github.io/node-npmdoc-tap/build/screenCapture.npmPackageDependencyTree.svg)
 
 
 
@@ -16,7 +18,6 @@
 {
     "author": {
         "name": "Isaac Z. Schlueter",
-        "email": "i@izs.me",
         "url": "http://blog.izs.me"
     },
     "bin": {
@@ -71,8 +72,8 @@
     },
     "directories": {},
     "dist": {
-        "shasum": "3262fe43b6123cce7eab362420a2f3e70cee8b1c",
-        "tarball": "https://registry.npmjs.org/tap/-/tap-10.3.1.tgz"
+        "shasum": "77982f08368d8b1803a3b0ab5fc300e1817f31e7",
+        "tarball": "https://registry.npmjs.org/tap/-/tap-10.3.2.tgz"
     },
     "engines": {
         "node": ">=0.8"
@@ -81,7 +82,7 @@
         "bin/*",
         "lib/*"
     ],
-    "gitHead": "98106c5533b94c48a949eddc427ea2080bc55dbe",
+    "gitHead": "fa3da919ec08dd4b88655f6089b2873f77b745c7",
     "homepage": "http://node-tap.org/",
     "keywords": [
         "assert",
@@ -92,13 +93,11 @@
     "main": "lib/tap.js",
     "maintainers": [
         {
-            "name": "isaacs",
-            "email": "i@izs.me"
+            "name": "isaacs"
         }
     ],
     "name": "tap",
     "optionalDependencies": {},
-    "readme": "ERROR: No README data found!",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/tapjs/node-tap.git"
@@ -113,7 +112,7 @@
         "t": "node bin/run.js test/*.* -sfails.txt",
         "test": "node bin/run.js test/*.* --coverage -t3600 -sfails"
     },
-    "version": "10.3.1"
+    "version": "10.3.2"
 }
 ```
 
@@ -214,7 +213,6 @@
 1.  object <span class="apidocSignatureSpan">tap.</span>pool
 1.  object <span class="apidocSignatureSpan">tap.</span>queue
 1.  object <span class="apidocSignatureSpan">tap.</span>results
-1.  object <span class="apidocSignatureSpan">tap.</span>stack
 1.  object <span class="apidocSignatureSpan">tap.</span>subtests
 1.  object <span class="apidocSignatureSpan">tap.</span>synonyms
 1.  object <span class="apidocSignatureSpan">tap.</span>time
@@ -314,11 +312,6 @@
 1.  [function <span class="apidocSignatureSpan">tap.mocha.</span>global ()](#apidoc.element.tap.mocha.global)
 1.  [function <span class="apidocSignatureSpan">tap.mocha.</span>it (name, fn)](#apidoc.element.tap.mocha.it)
 1.  [function <span class="apidocSignatureSpan">tap.mocha.</span>specify (name, fn)](#apidoc.element.tap.mocha.specify)
-
-#### [module tap.stack](#apidoc.module.tap.stack)
-1.  [function <span class="apidocSignatureSpan">tap.stack.</span>_wrapCallSite (frame)](#apidoc.element.tap.stack._wrapCallSite)
-1.  object <span class="apidocSignatureSpan">tap.stack.</span>_internals
-1.  string <span class="apidocSignatureSpan">tap.stack.</span>_cwd
 
 
 
@@ -847,22 +840,7 @@ push = function () { [native code] }
 ```
 - example usage
 ```shell
-...
-  })
-  return obj
-}
-
-function multiword_ (str) {
-  var res = [ str ]
-  if (str.match(/[A-Z]/)) {
-    res.push(str.toLowerCase())
-    res.push(str.replace(/[A-Z]/g, function ($0) {
-      return '_' + $0.toLowerCase()
-    }))
-  }
-  return res
-}
-...
+n/a
 ```
 
 #### <a name="apidoc.element.tap.runAfterEach"></a>[function <span class="apidocSignatureSpan">tap.</span>runAfterEach ()](#apidoc.element.tap.runAfterEach)
@@ -952,23 +930,7 @@ test = function () { [native code] }
 ```
 - example usage
 ```shell
-...
-  if (source.stack)
-    target.stack = source.stack
-  return false
-}
-
-return !(propertyName === 'todo' ||
-propertyName === 'time' ||
-/^_?tapChild/.test(propertyName) ||
-/^tapStream/.test(propertyName) ||
-/^tapMochaTest/.test(propertyName) ||
-propertyName === 'cb' ||
-propertyName === 'name' ||
-propertyName === 'indent' ||
-propertyName === 'skip' ||
-propertyName === 'bail' ||
-...
+n/a
 ```
 
 #### <a name="apidoc.element.tap.threw"></a>[function <span class="apidocSignatureSpan">tap.</span>threw ()](#apidoc.element.tap.threw)
@@ -1462,22 +1424,7 @@ push = function (c, e) {
 ```
 - example usage
 ```shell
-...
-  })
-  return obj
-}
-
-function multiword_ (str) {
-  var res = [ str ]
-  if (str.match(/[A-Z]/)) {
-    res.push(str.toLowerCase())
-    res.push(str.replace(/[A-Z]/g, function ($0) {
-      return '_' + $0.toLowerCase()
-    }))
-  }
-  return res
-}
-...
+n/a
 ```
 
 #### <a name="apidoc.element.tap.Spawn.super_.prototype.setTimeout"></a>[function <span class="apidocSignatureSpan">tap.Spawn.super_.prototype.</span>setTimeout (n)](#apidoc.element.tap.Spawn.super_.prototype.setTimeout)
@@ -2687,23 +2634,7 @@ function test(name, extra, cb) {
 ```
 - example usage
 ```shell
-...
-  if (source.stack)
-    target.stack = source.stack
-  return false
-}
-
-return !(propertyName === 'todo' ||
-propertyName === 'time' ||
-/^_?tapChild/.test(propertyName) ||
-/^tapStream/.test(propertyName) ||
-/^tapMochaTest/.test(propertyName) ||
-propertyName === 'cb' ||
-propertyName === 'name' ||
-propertyName === 'indent' ||
-propertyName === 'skip' ||
-propertyName === 'bail' ||
-...
+n/a
 ```
 
 #### <a name="apidoc.element.tap.Test.prototype.threw"></a>[function <span class="apidocSignatureSpan">tap.Test.prototype.</span>threw (er, extra, proxy)](#apidoc.element.tap.Test.prototype.threw)
@@ -3128,63 +3059,6 @@ function it(name, fn) {
     else
       tt.end()
   }}
-}
-```
-- example usage
-```shell
-n/a
-```
-
-
-
-# <a name="apidoc.module.tap.stack"></a>[module tap.stack](#apidoc.module.tap.stack)
-
-#### <a name="apidoc.element.tap.stack._wrapCallSite"></a>[function <span class="apidocSignatureSpan">tap.stack.</span>_wrapCallSite (frame)](#apidoc.element.tap.stack._wrapCallSite)
-- description and source-code
-```javascript
-function wrapCallSite(frame) {
-  if(frame.isNative()) {
-    return frame;
-  }
-
-  // Most call sites will return the source file from getFileName(), but code
-  // passed to eval() ending in "//# sourceURL=..." will return the source file
-  // from getScriptNameOrSourceURL() instead
-  var source = frame.getFileName() || frame.getScriptNameOrSourceURL();
-  if (source) {
-    var line = frame.getLineNumber();
-    var column = frame.getColumnNumber() - 1;
-
-    // Fix position in Node where some (internal) code is prepended.
-    // See https://github.com/evanw/node-source-map-support/issues/36
-    if (line === 1 && !isInBrowser() && !frame.isEval()) {
-      column -= 62;
-    }
-
-    var position = mapSourcePosition({
-      source: source,
-      line: line,
-      column: column
-    });
-    frame = cloneCallSite(frame);
-    frame.getFileName = function() { return position.source; };
-    frame.getLineNumber = function() { return position.line; };
-    frame.getColumnNumber = function() { return position.column + 1; };
-    frame.getScriptNameOrSourceURL = function() { return position.source; };
-    return frame;
-  }
-
-  // Code called using eval() needs special handling
-  var origin = frame.isEval() && frame.getEvalOrigin();
-  if (origin) {
-    origin = mapEvalOrigin(origin);
-    frame = cloneCallSite(frame);
-    frame.getEvalOrigin = function() { return origin; };
-    return frame;
-  }
-
-  // If we get here then we were unable to change the source position
-  return frame;
 }
 ```
 - example usage
