@@ -1,4 +1,4 @@
-<div class="apidocDiv">
+<html><head></head><body><div class="apidocDiv">
 <style>
 /*csslint
 */
@@ -47,17 +47,10 @@
 }
 </style>
 <h1>api documentation for
-    <a
-
-        href="http://node-tap.org/"
-
-    >tap (v10.3.2)</a>
+    <a href="http://node-tap.org/">tap (v10.3.2)</a>
 </h1>
 <h4>A Test-Anything-Protocol library</h4>
-<div class="apidocSectionDiv"><a
-    href="#apidoc.tableOfContents"
-    id="apidoc.tableOfContents"
-><h1>table of contents</h1></a><ol>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
 
     <li class="apidocModuleLi"><a href="#apidoc.module.tap">module tap</a><ol>
 
@@ -3554,44 +3547,44 @@
   this.command = options.command
 
   if (!this.command)
-    throw new TypeError(&#x27;no command provided&#x27;)
+    throw new TypeError('no command provided')
 
   this.args = options.args
   // stdout must be a pipe
   if (options.stdio) {
-    if (typeof options.stdio === &#x27;string&#x27;)
-      this.stdio = [ options.stdio, &#x27;pipe&#x27;, options.stdio ]
+    if (typeof options.stdio === 'string')
+      this.stdio = [ options.stdio, 'pipe', options.stdio ]
     else
       this.stdio = options.stdio.slice(0)
   } else
-    this.stdio = [ 0, &#x27;pipe&#x27;, 2 ]
+    this.stdio = [ 0, 'pipe', 2 ]
 
-  this.stdio[1] = &#x27;pipe&#x27;
+  this.stdio[1] = 'pipe'
   var env = options.env || process.env
   this.env = Object.keys(env).reduce(function (e, k) {
     e[k] = env[k]
     return e
   }, {})
 
-  this.env.TAP = &#x27;1&#x27;
+  this.env.TAP = '1'
   if (this.bail)
-    this.env.TAP_BAIL = &#x27;1&#x27;
+    this.env.TAP_BAIL = '1'
 
-  this.cwd = ownOr(options, &#x27;cwd&#x27;, process.cwd())
+  this.cwd = ownOr(options, 'cwd', process.cwd())
   options.cwd = this.cwd
   if (!this.name) {
     if (this.command === process.execPath) {
-      this.name = path.basename(process.execPath) + &#x27; &#x27; +
+      this.name = path.basename(process.execPath) + ' ' +
         this.args.map(function (a) {
           if (a.indexOf(this.cwd) === 0) {
-            return &#x27;./&#x27; +
-              a.substr(this.cwd.length + 1).replace(/\\/g, &#x27;/&#x27;)
+            return './' +
+              a.substr(this.cwd.length + 1).replace(/\\/g, '/')
           } else {
             return a
           }
-        }, this).join(&#x27; &#x27;)
+        }, this).join(' ')
     } else {
-      this.name = this.command + &#x27; &#x27; + this.args.join(&#x27; &#x27;)
+      this.name = this.command + ' ' + this.args.join(' ')
     }
   }
 
@@ -3611,8 +3604,8 @@
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Spawn.prototype.endAll = function () {
   if (this.proc)
-    this.proc.kill(&#x27;SIGKILL&#x27;)
-  this.parser.abort(&#x27;test unfinished&#x27;)
+    this.proc.kill('SIGKILL')
+  this.parser.abort('test unfinished')
   this.cb()
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -3641,8 +3634,8 @@
   try {
     var proc = this.proc = spawn(this.command, this.args, options)
     proc.stdout.pipe(this.parser)
-    proc.on(&#x27;close&#x27;, this.onprocclose.bind(this))
-    proc.on(&#x27;error&#x27;, this.threw.bind(this))
+    proc.on('close', this.onprocclose.bind(this))
+    proc.on('error', this.threw.bind(this))
   } catch (er) {
     this.threw(er)
   }
@@ -3660,14 +3653,14 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Spawn.prototype.onprocclose = function (code, signal) {
-  this.debug(&#x27;SPAWN close %j %s&#x27;, code, signal)
+  this.debug('SPAWN close %j %s', code, signal)
   this.options.exitCode = code
   if (signal)
     this.options.signal = signal
   this.results = this.results || {}
 
   // spawn closing with no tests is treated as a skip.
-  if (this.results.plan &#x26;&#x26; this.results.plan.skipAll &#x26;&#x26; !code &#x26;&#x26; !signal)
+  if (this.results.plan &amp;&amp; this.results.plan.skipAll &amp;&amp; !code &amp;&amp; !signal)
     this.options.skip = this.results.plan.skipReason || true
 
   if (code || signal) {
@@ -3694,10 +3687,10 @@
   // unhook entirely
   this.parser.abort(er.message, extra)
   if (this.proc) {
-    this.proc.stdout.removeAllListeners(&#x27;data&#x27;)
-    this.proc.stdout.removeAllListeners(&#x27;end&#x27;)
-    this.proc.removeAllListeners(&#x27;close&#x27;)
-    this.proc.kill(&#x27;SIGKILL&#x27;)
+    this.proc.stdout.removeAllListeners('data')
+    this.proc.stdout.removeAllListeners('end')
+    this.proc.removeAllListeners('close')
+    this.proc.kill('SIGKILL')
   }
   this.cb()
 }</pre></li>
@@ -3715,11 +3708,11 @@
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Spawn.prototype.timeout = function (extra) {
   if (this.proc)
-    this.proc.kill(&#x27;SIGTERM&#x27;)
+    this.proc.kill('SIGTERM')
   var t = setTimeout(function () {
-    if (!this.options.signal &#x26;&#x26; this.options.exitCode === undefined) {
+    if (!this.options.signal &amp;&amp; this.options.exitCode === undefined) {
       Base.prototype.timeout.call(this, extra)
-      this.proc.kill(&#x27;SIGKILL&#x27;)
+      this.proc.kill('SIGKILL')
     }
   }.bind(this), 1000)
   if (t.unref)
@@ -3743,26 +3736,26 @@
   this.time = null
   this.readyToProcess = false
   this.options = options
-  this.parent = ownOr(options, &#x27;parent&#x27;, null)
-  this.bail = ownOrEnv(options, &#x27;bail&#x27;, &#x27;TAP_BAIL&#x27;, true)
-  this.name = ownOr(options, &#x27;name&#x27;, &#x27;&#x27;)
+  this.parent = ownOr(options, 'parent', null)
+  this.bail = ownOrEnv(options, 'bail', 'TAP_BAIL', true)
+  this.name = ownOr(options, 'name', '')
   if (!this.name)
-    this.name = &#x27;&#x27;
+    this.name = ''
   else
-    this.name = this.name.replace(/[\n\r\s\t]/g, &#x27; &#x27;)
-  this.indent = ownOr(options, &#x27;indent&#x27;, &#x27;&#x27;)
+    this.name = this.name.replace(/[\n\r\s\t]/g, ' ')
+  this.indent = ownOr(options, 'indent', '')
   this.silent = !!options.silent
   this.buffered = !!options.buffered || !!options.silent
   this.finished = false
-  this.strict = ownOrEnv(options, &#x27;strict&#x27;, &#x27;TAP_STRICT&#x27;, true)
+  this.strict = ownOrEnv(options, 'strict', 'TAP_STRICT', true)
   this.omitVersion = !!options.omitVersion
-  this.preserveWhitespace = ownOr(options, &#x27;preserveWhitespace&#x27;, true)
-  this.jobs = +ownOrEnv(options, &#x27;jobs&#x27;, &#x27;TAP_JOBS&#x27;) || 0
-  this.skip = ownOr(options, &#x27;skip&#x27;, false)
-  this.todo = ownOr(options, &#x27;todo&#x27;, false)
+  this.preserveWhitespace = ownOr(options, 'preserveWhitespace', true)
+  this.jobs = +ownOrEnv(options, 'jobs', 'TAP_JOBS') || 0
+  this.skip = ownOr(options, 'skip', false)
+  this.todo = ownOr(options, 'todo', false)
   this.setupParser(options)
   this.finished = false
-  this.output = &#x27;&#x27;
+  this.output = ''
   this.results = null
   this.bailedOut = false
   if (this.skip || this.todo)
@@ -3771,9 +3764,9 @@
   Readable.apply(this, options)
 
   domain.create().add(this)
-  this.domain.on(&#x27;error&#x27;, this.threw.bind(this))
+  this.domain.on('error', this.threw.bind(this))
 
-  if (typeof options.debug === &#x27;boolean&#x27;)
+  if (typeof options.debug === 'boolean')
     this.debug = options.debug ? debug : nodebug
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -3789,8 +3782,8 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Spawn.super_.prototype._read = function (n) {
-  // this.emit(&#x27;readable&#x27;)
-  // this.debug(&#x27;_read %j&#x27;, this.name, arguments)
+  // this.emit('readable')
+  // this.debug('_read %j', this.name, arguments)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -3818,7 +3811,7 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Spawn.super_.prototype.inspect = function () {
-  return this.constructor.name + &#x27; &#x27; + util.inspect({
+  return this.constructor.name + ' ' + util.inspect({
     name: this.name,
     jobs: this.jobs,
     buffered: this.buffered,
@@ -3831,19 +3824,19 @@
     todo: this.todo,
     results: this.results,
     options: [
-      &#x27;autoend&#x27;,
-      &#x27;command&#x27;,
-      &#x27;args&#x27;,
-      &#x27;stdio&#x27;,
-      &#x27;env&#x27;,
-      &#x27;cwd&#x27;,
-      &#x27;exitCode&#x27;,
-      &#x27;signal&#x27;,
-      &#x27;expired&#x27;,
-      &#x27;timeout&#x27;,
-      &#x27;at&#x27;,
-      &#x27;skip&#x27;,
-      &#x27;todo&#x27;
+      'autoend',
+      'command',
+      'args',
+      'stdio',
+      'env',
+      'cwd',
+      'exitCode',
+      'signal',
+      'expired',
+      'timeout',
+      'at',
+      'skip',
+      'todo'
     ].reduce(function (set, k) {
       if (this.options[k] !== undefined)
         set[k] = this.options[k]
@@ -3880,7 +3873,7 @@
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Spawn.super_.prototype.onbail = function (reason) {
   this.bailedOut = reason || true
-  this.emit(&#x27;bailout&#x27;, reason)
+  this.emit('bailout', reason)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -3913,7 +3906,7 @@
     this.time = Math.round(this.hrtime[0] * 1e6 + this.hrtime[1] / 1e3) / 1e3
   }
 
-  this.debug(&#x27;ONCOMPLETE %j %j&#x27;, this.name, results)
+  this.debug('ONCOMPLETE %j %j', this.name, results)
 
   if (this.results)
     Object.keys(this.results).forEach(function (k) {
@@ -3921,7 +3914,7 @@
     }, this)
 
   this.results = results
-  this.emit(&#x27;complete&#x27;, results)
+  this.emit('complete', results)
   var failures = results.failures.filter(function (f) {
     delete f.diag
     delete f.ok
@@ -3932,7 +3925,7 @@
     this.options.failures = failures
 
   this.onbeforeend()
-  this.emit(&#x27;end&#x27;)
+  this.emit('end')
   this.ondone()
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -3961,7 +3954,7 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Spawn.super_.prototype.online = function (line) {
-  this.debug(&#x27;LINE %j&#x27;, line)
+  this.debug('LINE %j', line)
   return this.push(this.indent + line)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -3992,8 +3985,8 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Spawn.super_.prototype.push = function (c, e) {
-  assert.equal(typeof c, &#x27;string&#x27;)
-  assert.equal(c.substr(-1), &#x27;\n&#x27;)
+  assert.equal(typeof c, 'string')
+  assert.equal(c.substr(-1), '\n')
 
   if (this.buffered) {
     this.output += c
@@ -4001,7 +3994,7 @@
   }
 
   // We *always* want data coming out immediately.  Test runners have a
-  // very special relationship with zalgo. It&#x27;s more important to ensure
+  // very special relationship with zalgo. It's more important to ensure
   // that any console.log() lines that appear in the midst of tests are
   // not taken out of context
   if (this._readableState) {
@@ -4057,9 +4050,9 @@
     preserveWhitespace: this.preserveWhitespace
   })
   assert(this.parser.preserveWhitespace)
-  this.parser.on(&#x27;line&#x27;, this.online.bind(this))
-  this.parser.once(&#x27;bailout&#x27;, this.onbail.bind(this))
-  this.parser.on(&#x27;complete&#x27;, this.oncomplete.bind(this))
+  this.parser.on('line', this.online.bind(this))
+  this.parser.once('bailout', this.onbail.bind(this))
+  this.parser.on('complete', this.oncomplete.bind(this))
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -4074,7 +4067,7 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Spawn.super_.prototype.threw = function (er, extra, proxy) {
-  if (this.name &#x26;&#x26; !proxy)
+  if (this.name &amp;&amp; !proxy)
     er.test = this.name
 
   var message = er.message
@@ -4092,8 +4085,8 @@
       er.message = message
       delete extra.stack
       delete extra.at
-      console.error(&#x27;%s: %s&#x27;, er.name || &#x27;Error&#x27;, message)
-      console.error(er.stack.split(/\n/).slice(1).join(&#x27;\n&#x27;))
+      console.error('%s: %s', er.name || 'Error', message)
+      console.error(er.stack.split(/\n/).slice(1).join('\n'))
       console.error(extra)
     }
   } else
@@ -4115,10 +4108,10 @@
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Spawn.super_.prototype.timeout = function (options) {
   this.setTimeout(false)
-  var er = new Error(&#x27;timeout!&#x27;)
+  var er = new Error('timeout!')
   options = options || {}
   options.expired = options.expired || this.name
-  this.threw(new Error(&#x27;timeout!&#x27;), options)
+  this.threw(new Error('timeout!'), options)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -4137,11 +4130,11 @@
   if (!(this instanceof Stdin))
     return new Stdin(options)
 
-  options.name = ownOr(options, &#x27;name&#x27;, &#x27;/dev/stdin&#x27;)
+  options.name = ownOr(options, 'name', '/dev/stdin')
   Base.call(this, options)
 
-  // This has to be here for node 0.10&#x27;s wonky streams
-  this.stream = ownOr(options, &#x27;tapStream&#x27;, process.stdin)
+  // This has to be here for node 0.10's wonky streams
+  this.stream = ownOr(options, 'tapStream', process.stdin)
   this.stream.pause()
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -4161,7 +4154,7 @@
   this.setTimeout(this.options.timeout)
   this.stream.pipe(this.parser)
   this.stream.resume()
-  this.once(&#x27;end&#x27;, cb)
+  this.once('end', cb)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -4200,10 +4193,10 @@
 
   Base.call(this, options)
   this.pushedEnd = false
-  this.jobs = ownOr(options, &#x27;jobs&#x27;, 1)
+  this.jobs = ownOr(options, 'jobs', 1)
   this.subtests = []
   this.pool = new Pool()
-  this.queue = [&#x27;TAP version 13\n&#x27;]
+  this.queue = ['TAP version 13\n']
   this.noparallel = false
   this.cb = this.domain.bind(options.cb)
   this.occupied = false
@@ -4222,7 +4215,7 @@
   this.ranAfterEach = false
 
   // bind all methods to this object, so we can pass t.end as a callback
-  // and do `var test = require(&#x27;tap&#x27;).test` like people do.
+  // and do `var test = require('tap').test` like people do.
   var bound = Object.create(null)
   bindObj(this, this, bound)
   bindObj(this, Object.getPrototypeOf(this), bound)
@@ -4242,30 +4235,30 @@
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Test.prototype.addAssert = function (name, length, fn) {
   if (!name)
-    throw new TypeError(&#x27;name is required for addAssert&#x27;)
+    throw new TypeError('name is required for addAssert')
 
-  if (!(typeof length === &#x27;number&#x27; &#x26;&#x26; length &#x3e;= 0))
-    throw new TypeError(&#x27;number of args required&#x27;)
+  if (!(typeof length === 'number' &amp;&amp; length &gt;= 0))
+    throw new TypeError('number of args required')
 
-  if (typeof fn !== &#x27;function&#x27;)
-    throw new TypeError(&#x27;function required for addAssert&#x27;)
+  if (typeof fn !== 'function')
+    throw new TypeError('function required for addAssert')
 
   if (Test.prototype[name] || this[name])
-    throw new TypeError(&#x27;attempt to re-define `&#x27; + name + &#x27;` assert&#x27;)
+    throw new TypeError('attempt to re-define `' + name + '` assert')
 
   this[name] = function ASSERT () {
     if (!this.currentAssert) {
       this.currentAssert = ASSERT
     }
     var args = new Array(length + 2)
-    for (var i = 0; i &#x3c; length; i++) {
+    for (var i = 0; i &lt; length; i++) {
       args[i] = arguments[i]
     }
-    if (typeof arguments[length] === &#x27;object&#x27;) {
-      args[length] = &#x27;&#x27;
+    if (typeof arguments[length] === 'object') {
+      args[length] = ''
       args[length + 1] = arguments[length]
     } else {
-      args[length] = arguments[length] || &#x27;&#x27;
+      args[length] = arguments[length] || ''
       args[length + 1] = arguments[length + 1] || {}
     }
 
@@ -4316,13 +4309,13 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Test.prototype.bailout = function (message) {
-  if (this.parent &#x26;&#x26; (this.results || this.ended))
+  if (this.parent &amp;&amp; (this.results || this.ended))
     this.parent.bailout(message)
   else {
     this.process()
-    message = message ? &#x27; &#x27; + (&#x27;&#x27; + message).trim() : &#x27;&#x27;
-    message = message.replace(/[\r\n]/g, &#x27; &#x27;)
-    this.parser.write(&#x27;Bail out!&#x27; + message + &#x27;\n&#x27;)
+    message = message ? ' ' + ('' + message).trim() : ''
+    message = message.replace(/[\r\n]/g, ' ')
+    this.parser.write('Bail out!' + message + '\n')
   }
   this.end(IMPLICIT)
   this.process()
@@ -4356,7 +4349,7 @@
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Test.prototype.comment = function () {
   var message = util.format.apply(util, arguments)
-  message = &#x27;# &#x27; + message.split(/\r?\n/).join(&#x27;\n# &#x27;) + &#x27;\n&#x27;
+  message = '# ' + message.split(/\r?\n/).join('\n# ') + '\n'
 
   if (this.results)
     this.push(message)
@@ -4377,7 +4370,7 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Test.prototype.current = function () {
-  throw new Error(&#x27;Test.current() as been removed and is no more&#x27;)
+  throw new Error('Test.current() as been removed and is no more')
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -4393,7 +4386,7 @@
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Test.prototype.emitSubTeardown = function (p) {
   try {
-    p.emit(&#x27;teardown&#x27;)
+    p.emit('teardown')
   } catch (er) {
     delete p.options.time
     p.threw(er)
@@ -4412,20 +4405,20 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Test.prototype.end = function (implicit) {
-  this.debug(&#x27;END implicit=%j&#x27;, implicit === IMPLICIT)
-  if (this.ended &#x26;&#x26; implicit === IMPLICIT)
+  this.debug('END implicit=%j', implicit === IMPLICIT)
+  if (this.ended &amp;&amp; implicit === IMPLICIT)
     return
 
   // beyond here we have to be actually done with things, or else
   // the semantic checks on counts and such will be off.
   if (!queueEmpty(this) || this.occupied) {
     if (!this.pushedEnd)
-      this.queue.push([&#x27;end&#x27;, implicit])
+      this.queue.push(['end', implicit])
     this.pushedEnd = true
     return this.process()
   }
 
-  if (!this.ranAfterEach &#x26;&#x26; this.parent) {
+  if (!this.ranAfterEach &amp;&amp; this.parent) {
     this.ranAfterEach = true
     this.parent.runAfterEach(this, end.bind(this, implicit))
   } else
@@ -4450,7 +4443,7 @@
     if (p.endAll)
       p.endAll(true)
     else {
-      p.parser.abort(&#x27;test unfinished&#x27;)
+      p.parser.abort('test unfinished')
     }
   } else if (sub) {
     this.process()
@@ -4460,12 +4453,12 @@
         return o
       }.bind(this), {})
       this.options.at = null
-      this.options.stack = &#x27;&#x27;
+      this.options.stack = ''
       options.test = this.name
-      this.fail(&#x27;test unfinished&#x27;, options)
+      this.fail('test unfinished', options)
     }
   }
-  if (this.promise &#x26;&#x26; this.promise.tapAbortPromise)
+  if (this.promise &amp;&amp; this.promise.tapAbortPromise)
     this.promise.tapAbortPromise()
   if (this.occupied) {
     this.queue.unshift(this.occupied)
@@ -4493,12 +4486,12 @@
     this.currentAssert = fail
   }
 
-  if (message &#x26;&#x26; typeof message === &#x27;object&#x27;) {
+  if (message &amp;&amp; typeof message === 'object') {
     extra = message
-    message = &#x27;&#x27;
+    message = ''
   } else {
     if (!message) {
-      message = &#x27;&#x27;
+      message = ''
     }
     if (!extra) {
       extra = {}
@@ -4508,7 +4501,7 @@
   this.printResult(false, message, extra)
 
   var ret = true
-  if (!extra.todo &#x26;&#x26; !extra.skip)
+  if (!extra.todo &amp;&amp; !extra.skip)
     ret = false
 
   return ret
@@ -4527,7 +4520,7 @@
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Test.prototype.main = function (cb) {
   this.setTimeout(this.options.timeout)
-  this.debug(&#x27;MAIN pre&#x27;, this)
+  this.debug('MAIN pre', this)
 
   var self = this
   try {
@@ -4536,7 +4529,7 @@
     this.threw(er)
   }
 
-  if (ret &#x26;&#x26; ret.then) {
+  if (ret &amp;&amp; ret.then) {
     this.promise = ret
     ret.tapAbortPromise = done
     ret.then(end, done)
@@ -4544,7 +4537,7 @@
     done()
 
   function end () {
-    self.debug(&#x27; &#x3e; implicit end for promise&#x27;)
+    self.debug(' &gt; implicit end for promise')
     self.end(IMPLICIT)
     done()
   }
@@ -4559,7 +4552,7 @@
       self.ondone = cb
   }
 
-  this.debug(&#x27;MAIN post&#x27;, this)
+  this.debug('MAIN post', this)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -4607,16 +4600,16 @@
   p.results = p.results || {}
   p.readyToProcess = true
   var to = p.options.timeout
-  if (to &#x26;&#x26; p.passing())
+  if (to &amp;&amp; p.passing())
     var dur = Date.now() - p.start
-  if (dur &#x26;&#x26; dur &#x3e; to)
+  if (dur &amp;&amp; dur &gt; to)
     p.timeout()
   else
     p.setTimeout(false)
-  this.debug(&#x27;%s.onbufferedend&#x27;, this.name, p.name, p.results.bailout)
+  this.debug('%s.onbufferedend', this.name, p.name, p.results.bailout)
   this.pool.remove(p)
-  p.options.tapChildBuffer = p.output || &#x27;&#x27;
-  p.options.stack = &#x27;&#x27;
+  p.options.tapChildBuffer = p.output || ''
+  p.options.stack = ''
   if (p.time)
     p.options.time = p.time
   if (this.occupied === p)
@@ -4640,7 +4633,7 @@
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Test.prototype.onindentedend = function (p, er) {
   delete p.ondone
-  this.debug(&#x27;onindentedend&#x27;, p)
+  this.debug('onindentedend', p)
   this.noparallel = false
   var sti = this.subtests.indexOf(p)
   if (sti !== -1)
@@ -4650,22 +4643,22 @@
   if (p.time)
     p.options.time = p.time
   var to = p.options.timeout
-  if (to &#x26;&#x26; p.passing())
+  if (to &amp;&amp; p.passing())
     var dur = Date.now() - p.start
-  if (dur &#x26;&#x26; dur &#x3e; to)
+  if (dur &amp;&amp; dur &gt; to)
     p.timeout()
   else
     p.setTimeout(false)
-  this.debug(&#x27;onindentedend %s(%s)&#x27;, this.name, p.name, er || &#x27;ok&#x27;)
+  this.debug('onindentedend %s(%s)', this.name, p.name, er || 'ok')
   assert(this.occupied === p)
   this.occupied = null
-  this.debug(&#x27;OIE(%s) b&#x3e;shift into queue&#x27;, this.name, this.queue)
-  p.options.stack = &#x27;&#x27;
+  this.debug('OIE(%s) b&gt;shift into queue', this.name, this.queue)
+  p.options.stack = ''
 
-  this.queue.unshift([&#x27;emitSubTeardown&#x27;, p])
+  this.queue.unshift(['emitSubTeardown', p])
   this.printResult(p.passing(), p.name, p.options, true)
 
-  this.debug(&#x27;OIE(%s) shifted into queue&#x27;, this.name, this.queue)
+  this.debug('OIE(%s) shifted into queue', this.name, this.queue)
   if (er)
     this.threw(er)
   p.deferred.resolve(this)
@@ -4687,7 +4680,7 @@
   if (!this.currentAssert) {
     this.currentAssert = pass
   }
-  this.printResult(true, message || &#x27;(unnamed test)&#x27;, extra)
+  this.printResult(true, message || '(unnamed test)', extra)
   return true
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -4707,11 +4700,11 @@
     return
 
   if (this.planEnd !== -1) {
-    throw new Error(&#x27;Cannot set plan more than once&#x27;)
+    throw new Error('Cannot set plan more than once')
   }
 
-  if (typeof n !== &#x27;number&#x27; || n &#x3c; 0) {
-    throw new TypeError(&#x27;plan must be a number&#x27;)
+  if (typeof n !== 'number' || n &lt; 0) {
+    throw new TypeError('plan must be a number')
   }
 
   // Cannot get any tests after a trailing plan, or a plan of 0
@@ -4724,8 +4717,8 @@
     this.skip = comment || true
 
   this.planEnd = n
-  comment = comment ? &#x27; # &#x27; + comment.trim() : &#x27;&#x27;
-  this.queue.push(&#x27;1..&#x27; + n + comment + &#x27;\n&#x27;)
+  comment = comment ? ' # ' + comment.trim() : ''
+  this.queue.push('1..' + n + comment + '\n')
 
   if (ending)
     this.end(IMPLICIT)
@@ -4745,9 +4738,9 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Test.prototype.pragma = function (set) {
-  var p = &#x27;&#x27;
+  var p = ''
   Object.keys(set).forEach(function (i) {
-    p += &#x27;pragma &#x27; + (set[i] ? &#x27;+&#x27; : &#x27;-&#x27;) + i + &#x27;\n&#x27;
+    p += 'pragma ' + (set[i] ? '+' : '-') + i + '\n'
   })
   this.queue.push(p)
   this.process()
@@ -4766,13 +4759,13 @@
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function pR(ok, message, extra, front) {
   var n = this.count + 1
-  if (this.planEnd !== -1 &#x26;&#x26; n &#x3e; this.planEnd) {
+  if (this.planEnd !== -1 &amp;&amp; n &gt; this.planEnd) {
     if (!this.passing())
       return
 
     var failMessage = this.explicitEnded
-        ? &#x27;test after end() was called&#x27;
-        : &#x27;test count exceeds plan&#x27;
+        ? 'test after end() was called'
+        : 'test count exceeds plan'
 
     var er = new Error(failMessage)
     Error.captureStackTrace(er, this.currentAssert || pR)
@@ -4794,13 +4787,13 @@
     this.assertStack = null
   }
 
-  if (hasOwn(extra, &#x27;stack&#x27;) &#x26;&#x26; !hasOwn(extra, &#x27;at&#x27;))
-    extra.at = stack.parseLine(extra.stack.split(&#x27;\n&#x27;)[0])
+  if (hasOwn(extra, 'stack') &amp;&amp; !hasOwn(extra, 'at'))
+    extra.at = stack.parseLine(extra.stack.split('\n')[0])
 
   var fn = this.currentAssert || pR
   this.currentAssert = null
-  if (!ok &#x26;&#x26; !extra.skip &#x26;&#x26; !hasOwn(extra, &#x27;at&#x27;)) {
-    assert.equal(typeof fn, &#x27;function&#x27;)
+  if (!ok &amp;&amp; !extra.skip &amp;&amp; !hasOwn(extra, 'at')) {
+    assert.equal(typeof fn, 'function')
     extra.at = stack.at(fn)
     if (!extra.todo)
       extra.stack = stack.captureString(80, fn)
@@ -4813,10 +4806,10 @@
   if (extra.skip)
     diagnostic = false
 
-  if (process.env.TAP_DIAG === &#x27;0&#x27;)
+  if (process.env.TAP_DIAG === '0')
     diagnostic = false
 
-  if (typeof extra.diagnostic === &#x27;boolean&#x27;)
+  if (typeof extra.diagnostic === 'boolean')
     diagnostic = extra.diagnostic
 
   if (diagnostic)
@@ -4827,13 +4820,13 @@
   var output = new TestPoint(ok, message, extra)
   // when we jump the queue, skip an extra line
   if (front)
-    output.message = output.message.trimRight() + &#x27;\n\n&#x27;
+    output.message = output.message.trimRight() + '\n\n'
 
   if (front) {
-    this.emit(&#x27;result&#x27;, res)
+    this.emit('result', res)
     this.parser.write(output.ok + (++this.n) + output.message)
   } else
-    this.queue.push([&#x27;emit&#x27;, &#x27;result&#x27;, res], output)
+    this.queue.push(['emit', 'result', res], output)
 
   if (this.planEnd === this.count)
     this.end(IMPLICIT)
@@ -4854,44 +4847,44 @@
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Test.prototype.process = function () {
   if (this.processing)
-    return this.debug(&#x27; &#x3c; already processing&#x27;)
+    return this.debug(' &lt; already processing')
 
-  this.debug(&#x27;\nPROCESSING(%s)&#x27;, this.name, this.queue.length)
+  this.debug('\nPROCESSING(%s)', this.name, this.queue.length)
   this.processing = true
 
   var p
 
-  while (!this.occupied &#x26;&#x26; (p = this.queue.shift())) {
-    this.debug(&#x27;PROCESS(%s)&#x27;, this.name, p)
+  while (!this.occupied &amp;&amp; (p = this.queue.shift())) {
+    this.debug('PROCESS(%s)', this.name, p)
     if (p instanceof Base) {
       this.processSubtest(p)
     } else if (p === EOF) {
-      this.debug(&#x27; &#x3e; EOF&#x27;, this.name)
+      this.debug(' &gt; EOF', this.name)
       // I AM BECOME EOF, DESTROYER OF STREAMS
       this.parser.end()
     } else if (p instanceof TestPoint) {
-      this.debug(&#x27; &#x3e; TESTPOINT&#x27;)
+      this.debug(' &gt; TESTPOINT')
       this.parser.write(p.ok + (++this.n) + p.message)
-    } else if (typeof p === &#x27;string&#x27;) {
-      this.debug(&#x27; &#x3e; STRING&#x27;)
+    } else if (typeof p === 'string') {
+      this.debug(' &gt; STRING')
       this.parser.write(p)
     } else if (Array.isArray(p)) {
-      this.debug(&#x27; &#x3e; METHOD&#x27;)
+      this.debug(' &gt; METHOD')
       var m = p.shift()
       this[m].apply(this, p)
     } else {
-      throw new Error(&#x27;weird thing got in the queue&#x27;)
+      throw new Error('weird thing got in the queue')
     }
   }
 
-  while (!this.noparallel &#x26;&#x26;
-         this.pool.length &#x3c; this.jobs &#x26;&#x26;
+  while (!this.noparallel &amp;&amp;
+         this.pool.length &lt; this.jobs &amp;&amp;
          (p = this.subtests.shift())) {
     if (!p.buffered) {
       this.noparallel = true
       break
     }
-    this.debug(&#x27;start subtest&#x27;, p)
+    this.debug('start subtest', p)
     this.pool.add(p)
     if (this.bailedOut)
       this.onbufferedend(p)
@@ -4901,12 +4894,12 @@
           this.onbufferedend.bind(this, p)))
   }
 
-  this.debug(&#x27;done processing&#x27;, this.queue, this.occupied)
+  this.debug('done processing', this.queue, this.occupied)
   this.processing = false
 
   // just in case any tests ended, and we have sync stuff still
   // waiting around in the queue to be processed
-  if (!this.occupied &#x26;&#x26; this.queue.length)
+  if (!this.occupied &amp;&amp; this.queue.length)
     this.process()
 
   this.maybeAutoend()
@@ -4924,28 +4917,28 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Test.prototype.processSubtest = function (p) {
-  this.debug(&#x27; &#x3e; subtest&#x27;)
+  this.debug(' &gt; subtest')
   this.occupied = p
   if (!p.buffered) {
     if (this.bailedOut)
       return this.onindentedend(p)
-    this.debug(&#x27; &#x3e; subtest indented&#x27;)
+    this.debug(' &gt; subtest indented')
     p.pipe(this.parser, { end: false })
     this.runBeforeEach(p,
       this.writeSubComment.bind(this, p,
         p.main.bind(p,
           this.onindentedend.bind(this, p))))
   } else if (p.readyToProcess) {
-    this.debug(&#x27; &#x3e; subtest buffered, finished&#x27;)
+    this.debug(' &gt; subtest buffered, finished')
     // finished!  do the thing!
     this.occupied = null
     if (!p.passing() || !p.silent) {
-      this.queue.unshift([&#x27;emitSubTeardown&#x27;, p])
+      this.queue.unshift(['emitSubTeardown', p])
       this.printResult(p.passing(), p.name, p.options, true)
     }
   } else {
     this.occupied = p
-    this.debug(&#x27; &#x3e; subtest buffered, unfinished&#x27;, p)
+    this.debug(' &gt; subtest buffered, unfinished', p)
     // unfinished buffered test.
     // nothing to do yet, just leave it there.
     this.queue.unshift(p)
@@ -5007,12 +5000,12 @@
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Test.prototype.shouldAutoend = function () {
   var should = (
-    this.options.autoend &#x26;&#x26;
-    !this.ended &#x26;&#x26;
-    !this.occupied &#x26;&#x26;
-    queueEmpty(this) &#x26;&#x26;
-    !this.pool.length &#x26;&#x26;
-    !this.subtests.length &#x26;&#x26;
+    this.options.autoend &amp;&amp;
+    !this.ended &amp;&amp;
+    !this.occupied &amp;&amp;
+    queueEmpty(this) &amp;&amp;
+    !this.pool.length &amp;&amp;
+    !this.subtests.length &amp;&amp;
     this.planEnd === -1
   )
   return should
@@ -5030,19 +5023,19 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function spawn(cmd, args, options, name) {
-  if (typeof args === &#x27;string&#x27;) {
+  if (typeof args === 'string') {
     args = [ args ]
   }
 
   args = args || []
 
-  if (typeof options === &#x27;string&#x27;) {
+  if (typeof options === 'string') {
     name = options
     options = {}
   }
 
   options = options || {}
-  options.name = ownOr(options, &#x27;name&#x27;, name)
+  options.name = ownOr(options, 'name', name)
   options.command = cmd
   options.args = args
 
@@ -5061,7 +5054,7 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function stdin(name, extra) {
-  extra = parseTestArgs(name, extra, function () {}, &#x27;/dev/stdin&#x27;)
+  extra = parseTestArgs(name, extra, function () {}, '/dev/stdin')
   return this.sub(Stdin, extra || {}, stdin)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -5077,18 +5070,18 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Test.prototype.sub = function (Class, extra, caller) {
-  if (extra &#x26;&#x26; (extra.todo || extra.skip)) {
+  if (extra &amp;&amp; (extra.todo || extra.skip)) {
     this.pass(extra.name, extra)
     return Promise.resolve(this)
   }
 
-  extra.indent = &#x27;    &#x27;
-  if (this.jobs &#x3e; 1 &#x26;&#x26; process.env.TAP_BUFFER === undefined)
-    extra.buffered = ownOr(extra, &#x27;buffered&#x27;, true)
+  extra.indent = '    '
+  if (this.jobs &gt; 1 &amp;&amp; process.env.TAP_BUFFER === undefined)
+    extra.buffered = ownOr(extra, 'buffered', true)
   else
-    extra.buffered = ownOrEnv(extra, &#x27;buffered&#x27;, &#x27;TAP_BUFFER&#x27;, true)
+    extra.buffered = ownOrEnv(extra, 'buffered', 'TAP_BUFFER', true)
 
-  extra.bail = ownOr(extra, &#x27;bail&#x27;, this.bail)
+  extra.bail = ownOr(extra, 'bail', this.bail)
   extra.parent = this
   extra.stack = stack.captureString(80, caller)
   var t = new Class(extra)
@@ -5114,7 +5107,7 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Test.prototype.tearDown = function (fn) {
-  this.on(&#x27;teardown&#x27;, fn)
+  this.on('teardown', fn)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -5145,18 +5138,18 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Test.prototype.threw = function (er, extra, proxy) {
-  this.debug(&#x27;THREW&#x27;, er.message, extra, proxy)
+  this.debug('THREW', er.message, extra, proxy)
 
-  // event emitters &#x27;error&#x27; events need to re-throw so that they
-  // can jump out of the flow like a normal throw.  They&#x27;ll just
-  // end up back here once that happens, though, unless there&#x27;s a
+  // event emitters 'error' events need to re-throw so that they
+  // can jump out of the flow like a normal throw.  They'll just
+  // end up back here once that happens, though, unless there's a
   // try/catch somewhere in the call stack.
   if (er.domainEmitter) {
     delete er.domainEmitter
     throw er
   }
 
-  if (this.name &#x26;&#x26; !proxy)
+  if (this.name &amp;&amp; !proxy)
     er.test = this.name
   if (!proxy)
     extra = extraFromError(er, extra, this.options)
@@ -5203,10 +5196,10 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Test.prototype.writeSubComment = function (p, cb) {
-  var comment = &#x27;# Subtest&#x27;
+  var comment = '# Subtest'
   if (p.name)
-    comment += &#x27;: &#x27; + p.name
-  comment += &#x27;\n&#x27;
+    comment += ': ' + p.name
+  comment += '\n'
   this.parser.write(comment)
   cb()
 }</pre></li>
@@ -5231,8 +5224,8 @@
 exports.decorate = decorate
 
 function decorate (t) {
-t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, function (obj, message, extra) {
-  message = message || &#x27;expect truthy value&#x27;
+t.<span class="apidocCodeKeywordSpan">addAssert</span>('ok', 1, function (obj, message, extra) {
+  message = message || 'expect truthy value'
   if (obj) {
     return this.pass(message, extra)
   }
@@ -5317,23 +5310,23 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function cleanTapYamlObject(object) {
-  if (hasOwn(object, &#x27;stack&#x27;) &#x26;&#x26; !hasOwn(object, &#x27;at&#x27;))
-    object.at = stack.parseLine(object.stack.split(&#x27;\n&#x27;)[0])
+  if (hasOwn(object, 'stack') &amp;&amp; !hasOwn(object, 'at'))
+    object.at = stack.parseLine(object.stack.split('\n')[0])
 
-  var file = object.at &#x26;&#x26; object.at.file &#x26;&#x26; path.resolve(object.at.file)
-  if (file &#x26;&#x26; (file.indexOf(__dirname) === 0 || file.indexOf(binpath) === 0))
+  var file = object.at &amp;&amp; object.at.file &amp;&amp; path.resolve(object.at.file)
+  if (file &amp;&amp; (file.indexOf(__dirname) === 0 || file.indexOf(binpath) === 0))
     delete object.at
 
-  if (object.at &#x26;&#x26; object.at.file &#x26;&#x26; object.at.line &#x26;&#x26; !object.source) {
+  if (object.at &amp;&amp; object.at.file &amp;&amp; object.at.line &amp;&amp; !object.source) {
     var content
     file = path.resolve(object.at.file)
     try {
       content = Module.wrap(fs.readFileSync(file))
     } catch (er) {}
     if (content) {
-      content = (content.split(&#x27;\n&#x27;)[object.at.line - 1] || &#x27;&#x27;).trim()
+      content = (content.split('\n')[object.at.line - 1] || '').trim()
       if (content)
-        object.source = content + &#x27;\n&#x27;
+        object.source = content + '\n'
     }
   }
 
@@ -5380,7 +5373,7 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     <li>description and source-code<pre class="apidocCodePre">function diags(extra) {
   var y = objToYaml(extra)
   if (y)
-    y = &#x27;\n&#x27; + y
+    y = '\n' + y
 
   return y
 }</pre></li>
@@ -5450,12 +5443,12 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     <ul>
     <li>description and source-code<pre class="apidocCodePre">extra_from_error = function (er, extra, options) {
   extra = Object.keys(options || {}).reduce(function (set, k) {
-    if (!(k in set) &#x26;&#x26; !/^tapChild/.test(k))
+    if (!(k in set) &amp;&amp; !/^tapChild/.test(k))
       set[k] = options[k]
     return set
   }, extra || {})
 
-  if (!er || typeof er !== &#x27;object&#x27;) {
+  if (!er || typeof er !== 'object') {
     extra.error = er
     return extra
   }
@@ -5463,30 +5456,30 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
   var message = er.message
   var addName = true
 
-  if (!message &#x26;&#x26; er.stack) {
-    message = er.stack.split(&#x27;\n&#x27;)[0]
+  if (!message &amp;&amp; er.stack) {
+    message = er.stack.split('\n')[0]
     addName = false
   }
 
-  er.message = &#x27;&#x27;
+  er.message = ''
   var st = er.stack
   if (st) {
-    st = st.split(&#x27;\n&#x27;)
-    // parse out the &#x27;at&#x27; bit from the first line.
+    st = st.split('\n')
+    // parse out the 'at' bit from the first line.
     extra.at = stack.parseLine(st[1])
     extra.stack = stack.clean(st)
   }
   er.message = message
 
-  if (er.name &#x26;&#x26; er.name !== &#x27;Error&#x27;)
+  if (er.name &amp;&amp; er.name !== 'Error')
     extra.type = er.name
 
   Object.keys(er).forEach(function (k) {
-    if (k === &#x27;message&#x27; ||
-        k === &#x27;domainEmitter&#x27; ||
-        k === &#x27;domainThrown&#x27; ||
-        k === &#x27;domain&#x27; ||
-        k === &#x27;domainBound&#x27;)
+    if (k === 'message' ||
+        k === 'domainEmitter' ||
+        k === 'domainThrown' ||
+        k === 'domain' ||
+        k === 'domainBound')
       return
     extra[k] = er[k]
   })
@@ -5508,8 +5501,8 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     <li>description and source-code<pre class="apidocCodePre">fail = function () { [native code] }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 function decorate (t) {
-t.addAssert(&#x27;ok&#x27;, 1, function (obj, message, extra) {
-  message = message || &#x27;expect truthy value&#x27;
+t.addAssert('ok', 1, function (obj, message, extra) {
+  message = message || 'expect truthy value'
   if (obj) {
     return this.pass(message, extra)
   }
@@ -5517,8 +5510,8 @@ t.addAssert(&#x27;ok&#x27;, 1, function (obj, message, extra) {
   return this.<span class="apidocCodeKeywordSpan">fail</span>(message, extra)
 })
 
-t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
-  message = message || &#x27;expect falsey value&#x27;
+t.addAssert('notOk', 1, function (obj, message, extra) {
+  message = message || 'expect falsey value'
   return this.ok(!obj, message, extra)
 })
 ...</pre></li>
@@ -5562,7 +5555,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     <li>description and source-code<pre class="apidocCodePre">function after(name, fn) {
   var suite = suiteStack[ suiteStack.length - 1 ]
   if (!suite)
-    throw new Error(&#x27;cannot call &#x22;after&#x22; outside of describe()&#x27;)
+    throw new Error('cannot call "after" outside of describe()')
   if (fn)
     suite.after.push([name, fn])
   else
@@ -5581,7 +5574,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function afterEach(fn) {
-  moment(&#x27;afterEach&#x27;, fn)
+  moment('afterEach', fn)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -5596,18 +5589,18 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function before(name, fn) {
-  if (typeof name === &#x27;function&#x27;)
+  if (typeof name === 'function')
     fn = name, name = null
-  if (fn &#x26;&#x26; fn.name &#x26;&#x26; !name)
+  if (fn &amp;&amp; fn.name &amp;&amp; !name)
     name = fn.name
   var todo = !fn
   var suite = suiteStack[ suiteStack.length - 1 ]
   var t = tapStack[ tapStack.length - 1 ]
   if (!name)
-    name = &#x27;&#x27;
+    name = ''
   t.test(name, { todo: todo, silent: true }, function (tt) {
     var ret = fn.call(suite, done(tt))
-    if (!ret &#x26;&#x26; fn.length === 0)
+    if (!ret &amp;&amp; fn.length === 0)
       tt.end()
     else
       return ret
@@ -5633,7 +5626,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function beforeEach(fn) {
-  moment(&#x27;beforeEach&#x27;, fn)
+  moment('beforeEach', fn)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -5663,18 +5656,18 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function it(name, fn) {
-  if (typeof name === &#x27;function&#x27;)
+  if (typeof name === 'function')
     fn = name, name = null
-  if (fn &#x26;&#x26; fn.name &#x26;&#x26; !name)
+  if (fn &amp;&amp; fn.name &amp;&amp; !name)
     name = fn.name
   var todo = !fn
   var suite = suiteStack[ suiteStack.length - 1 ]
   var t = tapStack[ tapStack.length - 1 ]
   if (!name)
-    name = &#x27;&#x27;
+    name = ''
   t.test(name, { todo: todo, tapMochaTest: true }, function (tt) {
     var ret = fn.call(tt, done(tt))
-    if (ret &#x26;&#x26; ret.then)
+    if (ret &amp;&amp; ret.then)
       return ret
     else if (fn.length === 0)
       tt.end()
@@ -5718,12 +5711,12 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function objToYaml(obj) {
   obj = cleanYamlObject(obj)
-  var y = &#x27;&#x27;
-  if (obj &#x26;&#x26; typeof obj === &#x27;object&#x27; &#x26;&#x26; Object.keys(obj).length) {
-    y = yaml.safeDump(obj).split(&#x27;\n&#x27;).map(function (l) {
-      return l.trim() ? &#x27;  &#x27; + l : l.trim()
-    }).join(&#x27;\n&#x27;)
-    y = &#x27;  ---\n&#x27; + y + &#x27;  ...\n&#x27;
+  var y = ''
+  if (obj &amp;&amp; typeof obj === 'object' &amp;&amp; Object.keys(obj).length) {
+    y = yaml.safeDump(obj).split('\n').map(function (l) {
+      return l.trim() ? '  ' + l : l.trim()
+    }).join('\n')
+    y = '  ---\n' + y + '  ...\n'
   }
 
   return y
@@ -5811,8 +5804,8 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
 exports.decorate = decorate
 
 function decorate (t) {
-t.addAssert(&#x27;ok&#x27;, 1, function (obj, message, extra) {
-  message = message || &#x27;expect truthy value&#x27;
+t.addAssert('ok', 1, function (obj, message, extra) {
+  message = message || 'expect truthy value'
   if (obj) {
     return this.<span class="apidocCodeKeywordSpan">pass</span>(message, extra)
   }
@@ -5820,8 +5813,8 @@ t.addAssert(&#x27;ok&#x27;, 1, function (obj, message, extra) {
   return this.fail(message, extra)
 })
 
-t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
-  message = message || &#x27;expect falsey value&#x27;
+t.addAssert('notOk', 1, function (obj, message, extra) {
+  message = message || 'expect falsey value'
 ...</pre></li>
     </ul>
 
@@ -5874,13 +5867,13 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function TestPoint(ok, message, extra) {
-  if (typeof ok !== &#x27;boolean&#x27;)
-    throw new TypeError(&#x27;ok must be boolean&#x27;)
+  if (typeof ok !== 'boolean')
+    throw new TypeError('ok must be boolean')
 
   if (!(this instanceof TestPoint))
     return new TestPoint(ok, message, extra)
 
-  this.ok = ok ? &#x27;ok &#x27; : &#x27;not ok &#x27;
+  this.ok = ok ? 'ok ' : 'not ok '
   this.message = tpMessage(message, extra)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -5958,7 +5951,7 @@ function multiword_ (str) {
   if (str.match(/[A-Z]/)) {
     res.<span class="apidocCodeKeywordSpan">push</span>(str.toLowerCase())
     res.push(str.replace(/[A-Z]/g, function ($0) {
-      return &#x27;_&#x27; + $0.toLowerCase()
+      return '_' + $0.toLowerCase()
     }))
   }
   return res
@@ -6086,16 +6079,16 @@ function multiword_ (str) {
   return false
 }
 
-return !(propertyName === &#x27;todo&#x27; ||
-propertyName === &#x27;time&#x27; ||
+return !(propertyName === 'todo' ||
+propertyName === 'time' ||
 /^_?tapChild/.<span class="apidocCodeKeywordSpan">test</span>(propertyName) ||
 /^tapStream/.test(propertyName) ||
 /^tapMochaTest/.test(propertyName) ||
-propertyName === &#x27;cb&#x27; ||
-propertyName === &#x27;name&#x27; ||
-propertyName === &#x27;indent&#x27; ||
-propertyName === &#x27;skip&#x27; ||
-propertyName === &#x27;bail&#x27; ||
+propertyName === 'cb' ||
+propertyName === 'name' ||
+propertyName === 'indent' ||
+propertyName === 'skip' ||
+propertyName === 'bail' ||
 ...</pre></li>
     </ul>
 
@@ -6230,44 +6223,44 @@ propertyName === &#x27;bail&#x27; ||
   this.command = options.command
 
   if (!this.command)
-    throw new TypeError(&#x27;no command provided&#x27;)
+    throw new TypeError('no command provided')
 
   this.args = options.args
   // stdout must be a pipe
   if (options.stdio) {
-    if (typeof options.stdio === &#x27;string&#x27;)
-      this.stdio = [ options.stdio, &#x27;pipe&#x27;, options.stdio ]
+    if (typeof options.stdio === 'string')
+      this.stdio = [ options.stdio, 'pipe', options.stdio ]
     else
       this.stdio = options.stdio.slice(0)
   } else
-    this.stdio = [ 0, &#x27;pipe&#x27;, 2 ]
+    this.stdio = [ 0, 'pipe', 2 ]
 
-  this.stdio[1] = &#x27;pipe&#x27;
+  this.stdio[1] = 'pipe'
   var env = options.env || process.env
   this.env = Object.keys(env).reduce(function (e, k) {
     e[k] = env[k]
     return e
   }, {})
 
-  this.env.TAP = &#x27;1&#x27;
+  this.env.TAP = '1'
   if (this.bail)
-    this.env.TAP_BAIL = &#x27;1&#x27;
+    this.env.TAP_BAIL = '1'
 
-  this.cwd = ownOr(options, &#x27;cwd&#x27;, process.cwd())
+  this.cwd = ownOr(options, 'cwd', process.cwd())
   options.cwd = this.cwd
   if (!this.name) {
     if (this.command === process.execPath) {
-      this.name = path.basename(process.execPath) + &#x27; &#x27; +
+      this.name = path.basename(process.execPath) + ' ' +
         this.args.map(function (a) {
           if (a.indexOf(this.cwd) === 0) {
-            return &#x27;./&#x27; +
-              a.substr(this.cwd.length + 1).replace(/\\/g, &#x27;/&#x27;)
+            return './' +
+              a.substr(this.cwd.length + 1).replace(/\\/g, '/')
           } else {
             return a
           }
-        }, this).join(&#x27; &#x27;)
+        }, this).join(' ')
     } else {
-      this.name = this.command + &#x27; &#x27; + this.args.join(&#x27; &#x27;)
+      this.name = this.command + ' ' + this.args.join(' ')
     }
   }
 
@@ -6291,26 +6284,26 @@ propertyName === &#x27;bail&#x27; ||
   this.time = null
   this.readyToProcess = false
   this.options = options
-  this.parent = ownOr(options, &#x27;parent&#x27;, null)
-  this.bail = ownOrEnv(options, &#x27;bail&#x27;, &#x27;TAP_BAIL&#x27;, true)
-  this.name = ownOr(options, &#x27;name&#x27;, &#x27;&#x27;)
+  this.parent = ownOr(options, 'parent', null)
+  this.bail = ownOrEnv(options, 'bail', 'TAP_BAIL', true)
+  this.name = ownOr(options, 'name', '')
   if (!this.name)
-    this.name = &#x27;&#x27;
+    this.name = ''
   else
-    this.name = this.name.replace(/[\n\r\s\t]/g, &#x27; &#x27;)
-  this.indent = ownOr(options, &#x27;indent&#x27;, &#x27;&#x27;)
+    this.name = this.name.replace(/[\n\r\s\t]/g, ' ')
+  this.indent = ownOr(options, 'indent', '')
   this.silent = !!options.silent
   this.buffered = !!options.buffered || !!options.silent
   this.finished = false
-  this.strict = ownOrEnv(options, &#x27;strict&#x27;, &#x27;TAP_STRICT&#x27;, true)
+  this.strict = ownOrEnv(options, 'strict', 'TAP_STRICT', true)
   this.omitVersion = !!options.omitVersion
-  this.preserveWhitespace = ownOr(options, &#x27;preserveWhitespace&#x27;, true)
-  this.jobs = +ownOrEnv(options, &#x27;jobs&#x27;, &#x27;TAP_JOBS&#x27;) || 0
-  this.skip = ownOr(options, &#x27;skip&#x27;, false)
-  this.todo = ownOr(options, &#x27;todo&#x27;, false)
+  this.preserveWhitespace = ownOr(options, 'preserveWhitespace', true)
+  this.jobs = +ownOrEnv(options, 'jobs', 'TAP_JOBS') || 0
+  this.skip = ownOr(options, 'skip', false)
+  this.todo = ownOr(options, 'todo', false)
   this.setupParser(options)
   this.finished = false
-  this.output = &#x27;&#x27;
+  this.output = ''
   this.results = null
   this.bailedOut = false
   if (this.skip || this.todo)
@@ -6319,9 +6312,9 @@ propertyName === &#x27;bail&#x27; ||
   Readable.apply(this, options)
 
   domain.create().add(this)
-  this.domain.on(&#x27;error&#x27;, this.threw.bind(this))
+  this.domain.on('error', this.threw.bind(this))
 
-  if (typeof options.debug === &#x27;boolean&#x27;)
+  if (typeof options.debug === 'boolean')
     this.debug = options.debug ? debug : nodebug
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -6343,8 +6336,8 @@ propertyName === &#x27;bail&#x27; ||
     <ul>
     <li>description and source-code<pre class="apidocCodePre">endAll = function () {
   if (this.proc)
-    this.proc.kill(&#x27;SIGKILL&#x27;)
-  this.parser.abort(&#x27;test unfinished&#x27;)
+    this.proc.kill('SIGKILL')
+  this.parser.abort('test unfinished')
   this.cb()
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -6373,8 +6366,8 @@ propertyName === &#x27;bail&#x27; ||
   try {
     var proc = this.proc = spawn(this.command, this.args, options)
     proc.stdout.pipe(this.parser)
-    proc.on(&#x27;close&#x27;, this.onprocclose.bind(this))
-    proc.on(&#x27;error&#x27;, this.threw.bind(this))
+    proc.on('close', this.onprocclose.bind(this))
+    proc.on('error', this.threw.bind(this))
   } catch (er) {
     this.threw(er)
   }
@@ -6392,14 +6385,14 @@ propertyName === &#x27;bail&#x27; ||
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">onprocclose = function (code, signal) {
-  this.debug(&#x27;SPAWN close %j %s&#x27;, code, signal)
+  this.debug('SPAWN close %j %s', code, signal)
   this.options.exitCode = code
   if (signal)
     this.options.signal = signal
   this.results = this.results || {}
 
   // spawn closing with no tests is treated as a skip.
-  if (this.results.plan &#x26;&#x26; this.results.plan.skipAll &#x26;&#x26; !code &#x26;&#x26; !signal)
+  if (this.results.plan &amp;&amp; this.results.plan.skipAll &amp;&amp; !code &amp;&amp; !signal)
     this.options.skip = this.results.plan.skipReason || true
 
   if (code || signal) {
@@ -6426,10 +6419,10 @@ propertyName === &#x27;bail&#x27; ||
   // unhook entirely
   this.parser.abort(er.message, extra)
   if (this.proc) {
-    this.proc.stdout.removeAllListeners(&#x27;data&#x27;)
-    this.proc.stdout.removeAllListeners(&#x27;end&#x27;)
-    this.proc.removeAllListeners(&#x27;close&#x27;)
-    this.proc.kill(&#x27;SIGKILL&#x27;)
+    this.proc.stdout.removeAllListeners('data')
+    this.proc.stdout.removeAllListeners('end')
+    this.proc.removeAllListeners('close')
+    this.proc.kill('SIGKILL')
   }
   this.cb()
 }</pre></li>
@@ -6447,11 +6440,11 @@ propertyName === &#x27;bail&#x27; ||
     <ul>
     <li>description and source-code<pre class="apidocCodePre">timeout = function (extra) {
   if (this.proc)
-    this.proc.kill(&#x27;SIGTERM&#x27;)
+    this.proc.kill('SIGTERM')
   var t = setTimeout(function () {
-    if (!this.options.signal &#x26;&#x26; this.options.exitCode === undefined) {
+    if (!this.options.signal &amp;&amp; this.options.exitCode === undefined) {
       Base.prototype.timeout.call(this, extra)
-      this.proc.kill(&#x27;SIGKILL&#x27;)
+      this.proc.kill('SIGKILL')
     }
   }.bind(this), 1000)
   if (t.unref)
@@ -6476,8 +6469,8 @@ propertyName === &#x27;bail&#x27; ||
     <ul>
     <li>description and source-code<pre class="apidocCodePre">endAll = function () {
   if (this.proc)
-    this.proc.kill(&#x27;SIGKILL&#x27;)
-  this.parser.abort(&#x27;test unfinished&#x27;)
+    this.proc.kill('SIGKILL')
+  this.parser.abort('test unfinished')
   this.cb()
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -6511,8 +6504,8 @@ propertyName === &#x27;bail&#x27; ||
   try {
     var proc = this.proc = spawn(this.command, this.args, options)
     proc.stdout.pipe(this.parser)
-    proc.on(&#x27;close&#x27;, this.onprocclose.bind(this))
-    proc.on(&#x27;error&#x27;, this.threw.bind(this))
+    proc.on('close', this.onprocclose.bind(this))
+    proc.on('error', this.threw.bind(this))
   } catch (er) {
     this.threw(er)
   }
@@ -6535,14 +6528,14 @@ propertyName === &#x27;bail&#x27; ||
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">onprocclose = function (code, signal) {
-  this.debug(&#x27;SPAWN close %j %s&#x27;, code, signal)
+  this.debug('SPAWN close %j %s', code, signal)
   this.options.exitCode = code
   if (signal)
     this.options.signal = signal
   this.results = this.results || {}
 
   // spawn closing with no tests is treated as a skip.
-  if (this.results.plan &#x26;&#x26; this.results.plan.skipAll &#x26;&#x26; !code &#x26;&#x26; !signal)
+  if (this.results.plan &amp;&amp; this.results.plan.skipAll &amp;&amp; !code &amp;&amp; !signal)
     this.options.skip = this.results.plan.skipReason || true
 
   if (code || signal) {
@@ -6574,10 +6567,10 @@ propertyName === &#x27;bail&#x27; ||
   // unhook entirely
   this.parser.abort(er.message, extra)
   if (this.proc) {
-    this.proc.stdout.removeAllListeners(&#x27;data&#x27;)
-    this.proc.stdout.removeAllListeners(&#x27;end&#x27;)
-    this.proc.removeAllListeners(&#x27;close&#x27;)
-    this.proc.kill(&#x27;SIGKILL&#x27;)
+    this.proc.stdout.removeAllListeners('data')
+    this.proc.stdout.removeAllListeners('end')
+    this.proc.removeAllListeners('close')
+    this.proc.kill('SIGKILL')
   }
   this.cb()
 }</pre></li>
@@ -6600,11 +6593,11 @@ propertyName === &#x27;bail&#x27; ||
     <ul>
     <li>description and source-code<pre class="apidocCodePre">timeout = function (extra) {
   if (this.proc)
-    this.proc.kill(&#x27;SIGTERM&#x27;)
+    this.proc.kill('SIGTERM')
   var t = setTimeout(function () {
-    if (!this.options.signal &#x26;&#x26; this.options.exitCode === undefined) {
+    if (!this.options.signal &amp;&amp; this.options.exitCode === undefined) {
       Base.prototype.timeout.call(this, extra)
-      this.proc.kill(&#x27;SIGKILL&#x27;)
+      this.proc.kill('SIGKILL')
     }
   }.bind(this), 1000)
   if (t.unref)
@@ -6636,7 +6629,7 @@ propertyName === &#x27;bail&#x27; ||
   // legacy
   this.readable = true;
 
-  if (options &#x26;&#x26; typeof options.read === &#x27;function&#x27;)
+  if (options &amp;&amp; typeof options.read === 'function')
     this._read = options.read;
 
   Stream.call(this);
@@ -6659,8 +6652,8 @@ propertyName === &#x27;bail&#x27; ||
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">_read = function (n) {
-  // this.emit(&#x27;readable&#x27;)
-  // this.debug(&#x27;_read %j&#x27;, this.name, arguments)
+  // this.emit('readable')
+  // this.debug('_read %j', this.name, arguments)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -6688,7 +6681,7 @@ propertyName === &#x27;bail&#x27; ||
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">inspect = function () {
-  return this.constructor.name + &#x27; &#x27; + util.inspect({
+  return this.constructor.name + ' ' + util.inspect({
     name: this.name,
     jobs: this.jobs,
     buffered: this.buffered,
@@ -6701,19 +6694,19 @@ propertyName === &#x27;bail&#x27; ||
     todo: this.todo,
     results: this.results,
     options: [
-      &#x27;autoend&#x27;,
-      &#x27;command&#x27;,
-      &#x27;args&#x27;,
-      &#x27;stdio&#x27;,
-      &#x27;env&#x27;,
-      &#x27;cwd&#x27;,
-      &#x27;exitCode&#x27;,
-      &#x27;signal&#x27;,
-      &#x27;expired&#x27;,
-      &#x27;timeout&#x27;,
-      &#x27;at&#x27;,
-      &#x27;skip&#x27;,
-      &#x27;todo&#x27;
+      'autoend',
+      'command',
+      'args',
+      'stdio',
+      'env',
+      'cwd',
+      'exitCode',
+      'signal',
+      'expired',
+      'timeout',
+      'at',
+      'skip',
+      'todo'
     ].reduce(function (set, k) {
       if (this.options[k] !== undefined)
         set[k] = this.options[k]
@@ -6750,7 +6743,7 @@ propertyName === &#x27;bail&#x27; ||
     <ul>
     <li>description and source-code<pre class="apidocCodePre">onbail = function (reason) {
   this.bailedOut = reason || true
-  this.emit(&#x27;bailout&#x27;, reason)
+  this.emit('bailout', reason)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -6783,7 +6776,7 @@ propertyName === &#x27;bail&#x27; ||
     this.time = Math.round(this.hrtime[0] * 1e6 + this.hrtime[1] / 1e3) / 1e3
   }
 
-  this.debug(&#x27;ONCOMPLETE %j %j&#x27;, this.name, results)
+  this.debug('ONCOMPLETE %j %j', this.name, results)
 
   if (this.results)
     Object.keys(this.results).forEach(function (k) {
@@ -6791,7 +6784,7 @@ propertyName === &#x27;bail&#x27; ||
     }, this)
 
   this.results = results
-  this.emit(&#x27;complete&#x27;, results)
+  this.emit('complete', results)
   var failures = results.failures.filter(function (f) {
     delete f.diag
     delete f.ok
@@ -6802,7 +6795,7 @@ propertyName === &#x27;bail&#x27; ||
     this.options.failures = failures
 
   this.onbeforeend()
-  this.emit(&#x27;end&#x27;)
+  this.emit('end')
   this.ondone()
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -6831,7 +6824,7 @@ propertyName === &#x27;bail&#x27; ||
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">online = function (line) {
-  this.debug(&#x27;LINE %j&#x27;, line)
+  this.debug('LINE %j', line)
   return this.push(this.indent + line)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -6862,8 +6855,8 @@ propertyName === &#x27;bail&#x27; ||
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">push = function (c, e) {
-  assert.equal(typeof c, &#x27;string&#x27;)
-  assert.equal(c.substr(-1), &#x27;\n&#x27;)
+  assert.equal(typeof c, 'string')
+  assert.equal(c.substr(-1), '\n')
 
   if (this.buffered) {
     this.output += c
@@ -6871,7 +6864,7 @@ propertyName === &#x27;bail&#x27; ||
   }
 
   // We *always* want data coming out immediately.  Test runners have a
-  // very special relationship with zalgo. It&#x27;s more important to ensure
+  // very special relationship with zalgo. It's more important to ensure
   // that any console.log() lines that appear in the midst of tests are
   // not taken out of context
   if (this._readableState) {
@@ -6891,7 +6884,7 @@ function multiword_ (str) {
   if (str.match(/[A-Z]/)) {
     res.<span class="apidocCodeKeywordSpan">push</span>(str.toLowerCase())
     res.push(str.replace(/[A-Z]/g, function ($0) {
-      return &#x27;_&#x27; + $0.toLowerCase()
+      return '_' + $0.toLowerCase()
     }))
   }
   return res
@@ -6942,9 +6935,9 @@ function multiword_ (str) {
     preserveWhitespace: this.preserveWhitespace
   })
   assert(this.parser.preserveWhitespace)
-  this.parser.on(&#x27;line&#x27;, this.online.bind(this))
-  this.parser.once(&#x27;bailout&#x27;, this.onbail.bind(this))
-  this.parser.on(&#x27;complete&#x27;, this.oncomplete.bind(this))
+  this.parser.on('line', this.online.bind(this))
+  this.parser.once('bailout', this.onbail.bind(this))
+  this.parser.on('complete', this.oncomplete.bind(this))
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -6959,7 +6952,7 @@ function multiword_ (str) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">threw = function (er, extra, proxy) {
-  if (this.name &#x26;&#x26; !proxy)
+  if (this.name &amp;&amp; !proxy)
     er.test = this.name
 
   var message = er.message
@@ -6977,8 +6970,8 @@ function multiword_ (str) {
       er.message = message
       delete extra.stack
       delete extra.at
-      console.error(&#x27;%s: %s&#x27;, er.name || &#x27;Error&#x27;, message)
-      console.error(er.stack.split(/\n/).slice(1).join(&#x27;\n&#x27;))
+      console.error('%s: %s', er.name || 'Error', message)
+      console.error(er.stack.split(/\n/).slice(1).join('\n'))
       console.error(extra)
     }
   } else
@@ -7000,10 +6993,10 @@ function multiword_ (str) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">timeout = function (options) {
   this.setTimeout(false)
-  var er = new Error(&#x27;timeout!&#x27;)
+  var er = new Error('timeout!')
   options = options || {}
   options.expired = options.expired || this.name
-  this.threw(new Error(&#x27;timeout!&#x27;), options)
+  this.threw(new Error('timeout!'), options)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -7023,8 +7016,8 @@ function multiword_ (str) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">_read = function (n) {
-  // this.emit(&#x27;readable&#x27;)
-  // this.debug(&#x27;_read %j&#x27;, this.name, arguments)
+  // this.emit('readable')
+  // this.debug('_read %j', this.name, arguments)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -7062,7 +7055,7 @@ function multiword_ (str) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">inspect = function () {
-  return this.constructor.name + &#x27; &#x27; + util.inspect({
+  return this.constructor.name + ' ' + util.inspect({
     name: this.name,
     jobs: this.jobs,
     buffered: this.buffered,
@@ -7075,19 +7068,19 @@ function multiword_ (str) {
     todo: this.todo,
     results: this.results,
     options: [
-      &#x27;autoend&#x27;,
-      &#x27;command&#x27;,
-      &#x27;args&#x27;,
-      &#x27;stdio&#x27;,
-      &#x27;env&#x27;,
-      &#x27;cwd&#x27;,
-      &#x27;exitCode&#x27;,
-      &#x27;signal&#x27;,
-      &#x27;expired&#x27;,
-      &#x27;timeout&#x27;,
-      &#x27;at&#x27;,
-      &#x27;skip&#x27;,
-      &#x27;todo&#x27;
+      'autoend',
+      'command',
+      'args',
+      'stdio',
+      'env',
+      'cwd',
+      'exitCode',
+      'signal',
+      'expired',
+      'timeout',
+      'at',
+      'skip',
+      'todo'
     ].reduce(function (set, k) {
       if (this.options[k] !== undefined)
         set[k] = this.options[k]
@@ -7134,7 +7127,7 @@ function multiword_ (str) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">onbail = function (reason) {
   this.bailedOut = reason || true
-  this.emit(&#x27;bailout&#x27;, reason)
+  this.emit('bailout', reason)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -7177,7 +7170,7 @@ function multiword_ (str) {
     this.time = Math.round(this.hrtime[0] * 1e6 + this.hrtime[1] / 1e3) / 1e3
   }
 
-  this.debug(&#x27;ONCOMPLETE %j %j&#x27;, this.name, results)
+  this.debug('ONCOMPLETE %j %j', this.name, results)
 
   if (this.results)
     Object.keys(this.results).forEach(function (k) {
@@ -7185,7 +7178,7 @@ function multiword_ (str) {
     }, this)
 
   this.results = results
-  this.emit(&#x27;complete&#x27;, results)
+  this.emit('complete', results)
   var failures = results.failures.filter(function (f) {
     delete f.diag
     delete f.ok
@@ -7196,7 +7189,7 @@ function multiword_ (str) {
     this.options.failures = failures
 
   this.onbeforeend()
-  this.emit(&#x27;end&#x27;)
+  this.emit('end')
   this.ondone()
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -7235,7 +7228,7 @@ function multiword_ (str) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">online = function (line) {
-  this.debug(&#x27;LINE %j&#x27;, line)
+  this.debug('LINE %j', line)
   return this.push(this.indent + line)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -7276,8 +7269,8 @@ function multiword_ (str) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">push = function (c, e) {
-  assert.equal(typeof c, &#x27;string&#x27;)
-  assert.equal(c.substr(-1), &#x27;\n&#x27;)
+  assert.equal(typeof c, 'string')
+  assert.equal(c.substr(-1), '\n')
 
   if (this.buffered) {
     this.output += c
@@ -7285,7 +7278,7 @@ function multiword_ (str) {
   }
 
   // We *always* want data coming out immediately.  Test runners have a
-  // very special relationship with zalgo. It&#x27;s more important to ensure
+  // very special relationship with zalgo. It's more important to ensure
   // that any console.log() lines that appear in the midst of tests are
   // not taken out of context
   if (this._readableState) {
@@ -7305,7 +7298,7 @@ function multiword_ (str) {
   if (str.match(/[A-Z]/)) {
     res.<span class="apidocCodeKeywordSpan">push</span>(str.toLowerCase())
     res.push(str.replace(/[A-Z]/g, function ($0) {
-      return &#x27;_&#x27; + $0.toLowerCase()
+      return '_' + $0.toLowerCase()
     }))
   }
   return res
@@ -7366,9 +7359,9 @@ function multiword_ (str) {
     preserveWhitespace: this.preserveWhitespace
   })
   assert(this.parser.preserveWhitespace)
-  this.parser.on(&#x27;line&#x27;, this.online.bind(this))
-  this.parser.once(&#x27;bailout&#x27;, this.onbail.bind(this))
-  this.parser.on(&#x27;complete&#x27;, this.oncomplete.bind(this))
+  this.parser.on('line', this.online.bind(this))
+  this.parser.once('bailout', this.onbail.bind(this))
+  this.parser.on('complete', this.oncomplete.bind(this))
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -7388,7 +7381,7 @@ function multiword_ (str) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">threw = function (er, extra, proxy) {
-  if (this.name &#x26;&#x26; !proxy)
+  if (this.name &amp;&amp; !proxy)
     er.test = this.name
 
   var message = er.message
@@ -7406,8 +7399,8 @@ function multiword_ (str) {
       er.message = message
       delete extra.stack
       delete extra.at
-      console.error(&#x27;%s: %s&#x27;, er.name || &#x27;Error&#x27;, message)
-      console.error(er.stack.split(/\n/).slice(1).join(&#x27;\n&#x27;))
+      console.error('%s: %s', er.name || 'Error', message)
+      console.error(er.stack.split(/\n/).slice(1).join('\n'))
       console.error(extra)
     }
   } else
@@ -7434,10 +7427,10 @@ function multiword_ (str) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">timeout = function (options) {
   this.setTimeout(false)
-  var er = new Error(&#x27;timeout!&#x27;)
+  var er = new Error('timeout!')
   options = options || {}
   options.expired = options.expired || this.name
-  this.threw(new Error(&#x27;timeout!&#x27;), options)
+  this.threw(new Error('timeout!'), options)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -7461,11 +7454,11 @@ function multiword_ (str) {
   if (!(this instanceof Stdin))
     return new Stdin(options)
 
-  options.name = ownOr(options, &#x27;name&#x27;, &#x27;/dev/stdin&#x27;)
+  options.name = ownOr(options, 'name', '/dev/stdin')
   Base.call(this, options)
 
-  // This has to be here for node 0.10&#x27;s wonky streams
-  this.stream = ownOr(options, &#x27;tapStream&#x27;, process.stdin)
+  // This has to be here for node 0.10's wonky streams
+  this.stream = ownOr(options, 'tapStream', process.stdin)
   this.stream.pause()
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -7486,26 +7479,26 @@ function multiword_ (str) {
   this.time = null
   this.readyToProcess = false
   this.options = options
-  this.parent = ownOr(options, &#x27;parent&#x27;, null)
-  this.bail = ownOrEnv(options, &#x27;bail&#x27;, &#x27;TAP_BAIL&#x27;, true)
-  this.name = ownOr(options, &#x27;name&#x27;, &#x27;&#x27;)
+  this.parent = ownOr(options, 'parent', null)
+  this.bail = ownOrEnv(options, 'bail', 'TAP_BAIL', true)
+  this.name = ownOr(options, 'name', '')
   if (!this.name)
-    this.name = &#x27;&#x27;
+    this.name = ''
   else
-    this.name = this.name.replace(/[\n\r\s\t]/g, &#x27; &#x27;)
-  this.indent = ownOr(options, &#x27;indent&#x27;, &#x27;&#x27;)
+    this.name = this.name.replace(/[\n\r\s\t]/g, ' ')
+  this.indent = ownOr(options, 'indent', '')
   this.silent = !!options.silent
   this.buffered = !!options.buffered || !!options.silent
   this.finished = false
-  this.strict = ownOrEnv(options, &#x27;strict&#x27;, &#x27;TAP_STRICT&#x27;, true)
+  this.strict = ownOrEnv(options, 'strict', 'TAP_STRICT', true)
   this.omitVersion = !!options.omitVersion
-  this.preserveWhitespace = ownOr(options, &#x27;preserveWhitespace&#x27;, true)
-  this.jobs = +ownOrEnv(options, &#x27;jobs&#x27;, &#x27;TAP_JOBS&#x27;) || 0
-  this.skip = ownOr(options, &#x27;skip&#x27;, false)
-  this.todo = ownOr(options, &#x27;todo&#x27;, false)
+  this.preserveWhitespace = ownOr(options, 'preserveWhitespace', true)
+  this.jobs = +ownOrEnv(options, 'jobs', 'TAP_JOBS') || 0
+  this.skip = ownOr(options, 'skip', false)
+  this.todo = ownOr(options, 'todo', false)
   this.setupParser(options)
   this.finished = false
-  this.output = &#x27;&#x27;
+  this.output = ''
   this.results = null
   this.bailedOut = false
   if (this.skip || this.todo)
@@ -7514,9 +7507,9 @@ function multiword_ (str) {
   Readable.apply(this, options)
 
   domain.create().add(this)
-  this.domain.on(&#x27;error&#x27;, this.threw.bind(this))
+  this.domain.on('error', this.threw.bind(this))
 
-  if (typeof options.debug === &#x27;boolean&#x27;)
+  if (typeof options.debug === 'boolean')
     this.debug = options.debug ? debug : nodebug
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -7541,7 +7534,7 @@ function multiword_ (str) {
   this.setTimeout(this.options.timeout)
   this.stream.pipe(this.parser)
   this.stream.resume()
-  this.once(&#x27;end&#x27;, cb)
+  this.once('end', cb)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -7583,7 +7576,7 @@ function multiword_ (str) {
   this.setTimeout(this.options.timeout)
   this.stream.pipe(this.parser)
   this.stream.resume()
-  this.once(&#x27;end&#x27;, cb)
+  this.once('end', cb)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -7632,10 +7625,10 @@ function multiword_ (str) {
 
   Base.call(this, options)
   this.pushedEnd = false
-  this.jobs = ownOr(options, &#x27;jobs&#x27;, 1)
+  this.jobs = ownOr(options, 'jobs', 1)
   this.subtests = []
   this.pool = new Pool()
-  this.queue = [&#x27;TAP version 13\n&#x27;]
+  this.queue = ['TAP version 13\n']
   this.noparallel = false
   this.cb = this.domain.bind(options.cb)
   this.occupied = false
@@ -7654,7 +7647,7 @@ function multiword_ (str) {
   this.ranAfterEach = false
 
   // bind all methods to this object, so we can pass t.end as a callback
-  // and do `var test = require(&#x27;tap&#x27;).test` like people do.
+  // and do `var test = require('tap').test` like people do.
   var bound = Object.create(null)
   bindObj(this, this, bound)
   bindObj(this, Object.getPrototypeOf(this), bound)
@@ -7678,26 +7671,26 @@ function multiword_ (str) {
   this.time = null
   this.readyToProcess = false
   this.options = options
-  this.parent = ownOr(options, &#x27;parent&#x27;, null)
-  this.bail = ownOrEnv(options, &#x27;bail&#x27;, &#x27;TAP_BAIL&#x27;, true)
-  this.name = ownOr(options, &#x27;name&#x27;, &#x27;&#x27;)
+  this.parent = ownOr(options, 'parent', null)
+  this.bail = ownOrEnv(options, 'bail', 'TAP_BAIL', true)
+  this.name = ownOr(options, 'name', '')
   if (!this.name)
-    this.name = &#x27;&#x27;
+    this.name = ''
   else
-    this.name = this.name.replace(/[\n\r\s\t]/g, &#x27; &#x27;)
-  this.indent = ownOr(options, &#x27;indent&#x27;, &#x27;&#x27;)
+    this.name = this.name.replace(/[\n\r\s\t]/g, ' ')
+  this.indent = ownOr(options, 'indent', '')
   this.silent = !!options.silent
   this.buffered = !!options.buffered || !!options.silent
   this.finished = false
-  this.strict = ownOrEnv(options, &#x27;strict&#x27;, &#x27;TAP_STRICT&#x27;, true)
+  this.strict = ownOrEnv(options, 'strict', 'TAP_STRICT', true)
   this.omitVersion = !!options.omitVersion
-  this.preserveWhitespace = ownOr(options, &#x27;preserveWhitespace&#x27;, true)
-  this.jobs = +ownOrEnv(options, &#x27;jobs&#x27;, &#x27;TAP_JOBS&#x27;) || 0
-  this.skip = ownOr(options, &#x27;skip&#x27;, false)
-  this.todo = ownOr(options, &#x27;todo&#x27;, false)
+  this.preserveWhitespace = ownOr(options, 'preserveWhitespace', true)
+  this.jobs = +ownOrEnv(options, 'jobs', 'TAP_JOBS') || 0
+  this.skip = ownOr(options, 'skip', false)
+  this.todo = ownOr(options, 'todo', false)
   this.setupParser(options)
   this.finished = false
-  this.output = &#x27;&#x27;
+  this.output = ''
   this.results = null
   this.bailedOut = false
   if (this.skip || this.todo)
@@ -7706,9 +7699,9 @@ function multiword_ (str) {
   Readable.apply(this, options)
 
   domain.create().add(this)
-  this.domain.on(&#x27;error&#x27;, this.threw.bind(this))
+  this.domain.on('error', this.threw.bind(this))
 
-  if (typeof options.debug === &#x27;boolean&#x27;)
+  if (typeof options.debug === 'boolean')
     this.debug = options.debug ? debug : nodebug
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -7730,30 +7723,30 @@ function multiword_ (str) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">addAssert = function (name, length, fn) {
   if (!name)
-    throw new TypeError(&#x27;name is required for addAssert&#x27;)
+    throw new TypeError('name is required for addAssert')
 
-  if (!(typeof length === &#x27;number&#x27; &#x26;&#x26; length &#x3e;= 0))
-    throw new TypeError(&#x27;number of args required&#x27;)
+  if (!(typeof length === 'number' &amp;&amp; length &gt;= 0))
+    throw new TypeError('number of args required')
 
-  if (typeof fn !== &#x27;function&#x27;)
-    throw new TypeError(&#x27;function required for addAssert&#x27;)
+  if (typeof fn !== 'function')
+    throw new TypeError('function required for addAssert')
 
   if (Test.prototype[name] || this[name])
-    throw new TypeError(&#x27;attempt to re-define `&#x27; + name + &#x27;` assert&#x27;)
+    throw new TypeError('attempt to re-define `' + name + '` assert')
 
   this[name] = function ASSERT () {
     if (!this.currentAssert) {
       this.currentAssert = ASSERT
     }
     var args = new Array(length + 2)
-    for (var i = 0; i &#x3c; length; i++) {
+    for (var i = 0; i &lt; length; i++) {
       args[i] = arguments[i]
     }
-    if (typeof arguments[length] === &#x27;object&#x27;) {
-      args[length] = &#x27;&#x27;
+    if (typeof arguments[length] === 'object') {
+      args[length] = ''
       args[length + 1] = arguments[length]
     } else {
-      args[length] = arguments[length] || &#x27;&#x27;
+      args[length] = arguments[length] || ''
       args[length + 1] = arguments[length + 1] || {}
     }
 
@@ -7768,8 +7761,8 @@ function multiword_ (str) {
 exports.decorate = decorate
 
 function decorate (t) {
-t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, function (obj, message, extra) {
-  message = message || &#x27;expect truthy value&#x27;
+t.<span class="apidocCodeKeywordSpan">addAssert</span>('ok', 1, function (obj, message, extra) {
+  message = message || 'expect truthy value'
   if (obj) {
     return this.pass(message, extra)
   }
@@ -7820,13 +7813,13 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">bailout = function (message) {
-  if (this.parent &#x26;&#x26; (this.results || this.ended))
+  if (this.parent &amp;&amp; (this.results || this.ended))
     this.parent.bailout(message)
   else {
     this.process()
-    message = message ? &#x27; &#x27; + (&#x27;&#x27; + message).trim() : &#x27;&#x27;
-    message = message.replace(/[\r\n]/g, &#x27; &#x27;)
-    this.parser.write(&#x27;Bail out!&#x27; + message + &#x27;\n&#x27;)
+    message = message ? ' ' + ('' + message).trim() : ''
+    message = message.replace(/[\r\n]/g, ' ')
+    this.parser.write('Bail out!' + message + '\n')
   }
   this.end(IMPLICIT)
   this.process()
@@ -7860,7 +7853,7 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     <ul>
     <li>description and source-code<pre class="apidocCodePre">comment = function () {
   var message = util.format.apply(util, arguments)
-  message = &#x27;# &#x27; + message.split(/\r?\n/).join(&#x27;\n# &#x27;) + &#x27;\n&#x27;
+  message = '# ' + message.split(/\r?\n/).join('\n# ') + '\n'
 
   if (this.results)
     this.push(message)
@@ -7881,7 +7874,7 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">current = function () {
-  throw new Error(&#x27;Test.current() as been removed and is no more&#x27;)
+  throw new Error('Test.current() as been removed and is no more')
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -7896,20 +7889,20 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">done = function (implicit) {
-  this.debug(&#x27;END implicit=%j&#x27;, implicit === IMPLICIT)
-  if (this.ended &#x26;&#x26; implicit === IMPLICIT)
+  this.debug('END implicit=%j', implicit === IMPLICIT)
+  if (this.ended &amp;&amp; implicit === IMPLICIT)
     return
 
   // beyond here we have to be actually done with things, or else
   // the semantic checks on counts and such will be off.
   if (!queueEmpty(this) || this.occupied) {
     if (!this.pushedEnd)
-      this.queue.push([&#x27;end&#x27;, implicit])
+      this.queue.push(['end', implicit])
     this.pushedEnd = true
     return this.process()
   }
 
-  if (!this.ranAfterEach &#x26;&#x26; this.parent) {
+  if (!this.ranAfterEach &amp;&amp; this.parent) {
     this.ranAfterEach = true
     this.parent.runAfterEach(this, end.bind(this, implicit))
   } else
@@ -7929,7 +7922,7 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     <ul>
     <li>description and source-code<pre class="apidocCodePre">emitSubTeardown = function (p) {
   try {
-    p.emit(&#x27;teardown&#x27;)
+    p.emit('teardown')
   } catch (er) {
     delete p.options.time
     p.threw(er)
@@ -7948,20 +7941,20 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">end = function (implicit) {
-  this.debug(&#x27;END implicit=%j&#x27;, implicit === IMPLICIT)
-  if (this.ended &#x26;&#x26; implicit === IMPLICIT)
+  this.debug('END implicit=%j', implicit === IMPLICIT)
+  if (this.ended &amp;&amp; implicit === IMPLICIT)
     return
 
   // beyond here we have to be actually done with things, or else
   // the semantic checks on counts and such will be off.
   if (!queueEmpty(this) || this.occupied) {
     if (!this.pushedEnd)
-      this.queue.push([&#x27;end&#x27;, implicit])
+      this.queue.push(['end', implicit])
     this.pushedEnd = true
     return this.process()
   }
 
-  if (!this.ranAfterEach &#x26;&#x26; this.parent) {
+  if (!this.ranAfterEach &amp;&amp; this.parent) {
     this.ranAfterEach = true
     this.parent.runAfterEach(this, end.bind(this, implicit))
   } else
@@ -7986,7 +7979,7 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     if (p.endAll)
       p.endAll(true)
     else {
-      p.parser.abort(&#x27;test unfinished&#x27;)
+      p.parser.abort('test unfinished')
     }
   } else if (sub) {
     this.process()
@@ -7996,12 +7989,12 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
         return o
       }.bind(this), {})
       this.options.at = null
-      this.options.stack = &#x27;&#x27;
+      this.options.stack = ''
       options.test = this.name
-      this.fail(&#x27;test unfinished&#x27;, options)
+      this.fail('test unfinished', options)
     }
   }
-  if (this.promise &#x26;&#x26; this.promise.tapAbortPromise)
+  if (this.promise &amp;&amp; this.promise.tapAbortPromise)
     this.promise.tapAbortPromise()
   if (this.occupied) {
     this.queue.unshift(this.occupied)
@@ -8029,12 +8022,12 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     this.currentAssert = fail
   }
 
-  if (message &#x26;&#x26; typeof message === &#x27;object&#x27;) {
+  if (message &amp;&amp; typeof message === 'object') {
     extra = message
-    message = &#x27;&#x27;
+    message = ''
   } else {
     if (!message) {
-      message = &#x27;&#x27;
+      message = ''
     }
     if (!extra) {
       extra = {}
@@ -8044,15 +8037,15 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
   this.printResult(false, message, extra)
 
   var ret = true
-  if (!extra.todo &#x26;&#x26; !extra.skip)
+  if (!extra.todo &amp;&amp; !extra.skip)
     ret = false
 
   return ret
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 function decorate (t) {
-t.addAssert(&#x27;ok&#x27;, 1, function (obj, message, extra) {
-  message = message || &#x27;expect truthy value&#x27;
+t.addAssert('ok', 1, function (obj, message, extra) {
+  message = message || 'expect truthy value'
   if (obj) {
     return this.pass(message, extra)
   }
@@ -8060,8 +8053,8 @@ t.addAssert(&#x27;ok&#x27;, 1, function (obj, message, extra) {
   return this.<span class="apidocCodeKeywordSpan">fail</span>(message, extra)
 })
 
-t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
-  message = message || &#x27;expect falsey value&#x27;
+t.addAssert('notOk', 1, function (obj, message, extra) {
+  message = message || 'expect falsey value'
   return this.ok(!obj, message, extra)
 })
 ...</pre></li>
@@ -8078,7 +8071,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">main = function (cb) {
   this.setTimeout(this.options.timeout)
-  this.debug(&#x27;MAIN pre&#x27;, this)
+  this.debug('MAIN pre', this)
 
   var self = this
   try {
@@ -8087,7 +8080,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     this.threw(er)
   }
 
-  if (ret &#x26;&#x26; ret.then) {
+  if (ret &amp;&amp; ret.then) {
     this.promise = ret
     ret.tapAbortPromise = done
     ret.then(end, done)
@@ -8095,7 +8088,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     done()
 
   function end () {
-    self.debug(&#x27; &#x3e; implicit end for promise&#x27;)
+    self.debug(' &gt; implicit end for promise')
     self.end(IMPLICIT)
     done()
   }
@@ -8110,7 +8103,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
       self.ondone = cb
   }
 
-  this.debug(&#x27;MAIN post&#x27;, this)
+  this.debug('MAIN post', this)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -8158,16 +8151,16 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
   p.results = p.results || {}
   p.readyToProcess = true
   var to = p.options.timeout
-  if (to &#x26;&#x26; p.passing())
+  if (to &amp;&amp; p.passing())
     var dur = Date.now() - p.start
-  if (dur &#x26;&#x26; dur &#x3e; to)
+  if (dur &amp;&amp; dur &gt; to)
     p.timeout()
   else
     p.setTimeout(false)
-  this.debug(&#x27;%s.onbufferedend&#x27;, this.name, p.name, p.results.bailout)
+  this.debug('%s.onbufferedend', this.name, p.name, p.results.bailout)
   this.pool.remove(p)
-  p.options.tapChildBuffer = p.output || &#x27;&#x27;
-  p.options.stack = &#x27;&#x27;
+  p.options.tapChildBuffer = p.output || ''
+  p.options.stack = ''
   if (p.time)
     p.options.time = p.time
   if (this.occupied === p)
@@ -8191,7 +8184,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">onindentedend = function (p, er) {
   delete p.ondone
-  this.debug(&#x27;onindentedend&#x27;, p)
+  this.debug('onindentedend', p)
   this.noparallel = false
   var sti = this.subtests.indexOf(p)
   if (sti !== -1)
@@ -8201,22 +8194,22 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
   if (p.time)
     p.options.time = p.time
   var to = p.options.timeout
-  if (to &#x26;&#x26; p.passing())
+  if (to &amp;&amp; p.passing())
     var dur = Date.now() - p.start
-  if (dur &#x26;&#x26; dur &#x3e; to)
+  if (dur &amp;&amp; dur &gt; to)
     p.timeout()
   else
     p.setTimeout(false)
-  this.debug(&#x27;onindentedend %s(%s)&#x27;, this.name, p.name, er || &#x27;ok&#x27;)
+  this.debug('onindentedend %s(%s)', this.name, p.name, er || 'ok')
   assert(this.occupied === p)
   this.occupied = null
-  this.debug(&#x27;OIE(%s) b&#x3e;shift into queue&#x27;, this.name, this.queue)
-  p.options.stack = &#x27;&#x27;
+  this.debug('OIE(%s) b&gt;shift into queue', this.name, this.queue)
+  p.options.stack = ''
 
-  this.queue.unshift([&#x27;emitSubTeardown&#x27;, p])
+  this.queue.unshift(['emitSubTeardown', p])
   this.printResult(p.passing(), p.name, p.options, true)
 
-  this.debug(&#x27;OIE(%s) shifted into queue&#x27;, this.name, this.queue)
+  this.debug('OIE(%s) shifted into queue', this.name, this.queue)
   if (er)
     this.threw(er)
   p.deferred.resolve(this)
@@ -8238,7 +8231,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
   if (!this.currentAssert) {
     this.currentAssert = pass
   }
-  this.printResult(true, message || &#x27;(unnamed test)&#x27;, extra)
+  this.printResult(true, message || '(unnamed test)', extra)
   return true
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
@@ -8246,8 +8239,8 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
 exports.decorate = decorate
 
 function decorate (t) {
-t.addAssert(&#x27;ok&#x27;, 1, function (obj, message, extra) {
-  message = message || &#x27;expect truthy value&#x27;
+t.addAssert('ok', 1, function (obj, message, extra) {
+  message = message || 'expect truthy value'
   if (obj) {
     return this.<span class="apidocCodeKeywordSpan">pass</span>(message, extra)
   }
@@ -8255,8 +8248,8 @@ t.addAssert(&#x27;ok&#x27;, 1, function (obj, message, extra) {
   return this.fail(message, extra)
 })
 
-t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
-  message = message || &#x27;expect falsey value&#x27;
+t.addAssert('notOk', 1, function (obj, message, extra) {
+  message = message || 'expect falsey value'
 ...</pre></li>
     </ul>
 
@@ -8274,11 +8267,11 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     return
 
   if (this.planEnd !== -1) {
-    throw new Error(&#x27;Cannot set plan more than once&#x27;)
+    throw new Error('Cannot set plan more than once')
   }
 
-  if (typeof n !== &#x27;number&#x27; || n &#x3c; 0) {
-    throw new TypeError(&#x27;plan must be a number&#x27;)
+  if (typeof n !== 'number' || n &lt; 0) {
+    throw new TypeError('plan must be a number')
   }
 
   // Cannot get any tests after a trailing plan, or a plan of 0
@@ -8291,8 +8284,8 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     this.skip = comment || true
 
   this.planEnd = n
-  comment = comment ? &#x27; # &#x27; + comment.trim() : &#x27;&#x27;
-  this.queue.push(&#x27;1..&#x27; + n + comment + &#x27;\n&#x27;)
+  comment = comment ? ' # ' + comment.trim() : ''
+  this.queue.push('1..' + n + comment + '\n')
 
   if (ending)
     this.end(IMPLICIT)
@@ -8312,9 +8305,9 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">pragma = function (set) {
-  var p = &#x27;&#x27;
+  var p = ''
   Object.keys(set).forEach(function (i) {
-    p += &#x27;pragma &#x27; + (set[i] ? &#x27;+&#x27; : &#x27;-&#x27;) + i + &#x27;\n&#x27;
+    p += 'pragma ' + (set[i] ? '+' : '-') + i + '\n'
   })
   this.queue.push(p)
   this.process()
@@ -8333,13 +8326,13 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function pR(ok, message, extra, front) {
   var n = this.count + 1
-  if (this.planEnd !== -1 &#x26;&#x26; n &#x3e; this.planEnd) {
+  if (this.planEnd !== -1 &amp;&amp; n &gt; this.planEnd) {
     if (!this.passing())
       return
 
     var failMessage = this.explicitEnded
-        ? &#x27;test after end() was called&#x27;
-        : &#x27;test count exceeds plan&#x27;
+        ? 'test after end() was called'
+        : 'test count exceeds plan'
 
     var er = new Error(failMessage)
     Error.captureStackTrace(er, this.currentAssert || pR)
@@ -8361,13 +8354,13 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     this.assertStack = null
   }
 
-  if (hasOwn(extra, &#x27;stack&#x27;) &#x26;&#x26; !hasOwn(extra, &#x27;at&#x27;))
-    extra.at = stack.parseLine(extra.stack.split(&#x27;\n&#x27;)[0])
+  if (hasOwn(extra, 'stack') &amp;&amp; !hasOwn(extra, 'at'))
+    extra.at = stack.parseLine(extra.stack.split('\n')[0])
 
   var fn = this.currentAssert || pR
   this.currentAssert = null
-  if (!ok &#x26;&#x26; !extra.skip &#x26;&#x26; !hasOwn(extra, &#x27;at&#x27;)) {
-    assert.equal(typeof fn, &#x27;function&#x27;)
+  if (!ok &amp;&amp; !extra.skip &amp;&amp; !hasOwn(extra, 'at')) {
+    assert.equal(typeof fn, 'function')
     extra.at = stack.at(fn)
     if (!extra.todo)
       extra.stack = stack.captureString(80, fn)
@@ -8380,10 +8373,10 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
   if (extra.skip)
     diagnostic = false
 
-  if (process.env.TAP_DIAG === &#x27;0&#x27;)
+  if (process.env.TAP_DIAG === '0')
     diagnostic = false
 
-  if (typeof extra.diagnostic === &#x27;boolean&#x27;)
+  if (typeof extra.diagnostic === 'boolean')
     diagnostic = extra.diagnostic
 
   if (diagnostic)
@@ -8394,13 +8387,13 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
   var output = new TestPoint(ok, message, extra)
   // when we jump the queue, skip an extra line
   if (front)
-    output.message = output.message.trimRight() + &#x27;\n\n&#x27;
+    output.message = output.message.trimRight() + '\n\n'
 
   if (front) {
-    this.emit(&#x27;result&#x27;, res)
+    this.emit('result', res)
     this.parser.write(output.ok + (++this.n) + output.message)
   } else
-    this.queue.push([&#x27;emit&#x27;, &#x27;result&#x27;, res], output)
+    this.queue.push(['emit', 'result', res], output)
 
   if (this.planEnd === this.count)
     this.end(IMPLICIT)
@@ -8421,44 +8414,44 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">process = function () {
   if (this.processing)
-    return this.debug(&#x27; &#x3c; already processing&#x27;)
+    return this.debug(' &lt; already processing')
 
-  this.debug(&#x27;\nPROCESSING(%s)&#x27;, this.name, this.queue.length)
+  this.debug('\nPROCESSING(%s)', this.name, this.queue.length)
   this.processing = true
 
   var p
 
-  while (!this.occupied &#x26;&#x26; (p = this.queue.shift())) {
-    this.debug(&#x27;PROCESS(%s)&#x27;, this.name, p)
+  while (!this.occupied &amp;&amp; (p = this.queue.shift())) {
+    this.debug('PROCESS(%s)', this.name, p)
     if (p instanceof Base) {
       this.processSubtest(p)
     } else if (p === EOF) {
-      this.debug(&#x27; &#x3e; EOF&#x27;, this.name)
+      this.debug(' &gt; EOF', this.name)
       // I AM BECOME EOF, DESTROYER OF STREAMS
       this.parser.end()
     } else if (p instanceof TestPoint) {
-      this.debug(&#x27; &#x3e; TESTPOINT&#x27;)
+      this.debug(' &gt; TESTPOINT')
       this.parser.write(p.ok + (++this.n) + p.message)
-    } else if (typeof p === &#x27;string&#x27;) {
-      this.debug(&#x27; &#x3e; STRING&#x27;)
+    } else if (typeof p === 'string') {
+      this.debug(' &gt; STRING')
       this.parser.write(p)
     } else if (Array.isArray(p)) {
-      this.debug(&#x27; &#x3e; METHOD&#x27;)
+      this.debug(' &gt; METHOD')
       var m = p.shift()
       this[m].apply(this, p)
     } else {
-      throw new Error(&#x27;weird thing got in the queue&#x27;)
+      throw new Error('weird thing got in the queue')
     }
   }
 
-  while (!this.noparallel &#x26;&#x26;
-         this.pool.length &#x3c; this.jobs &#x26;&#x26;
+  while (!this.noparallel &amp;&amp;
+         this.pool.length &lt; this.jobs &amp;&amp;
          (p = this.subtests.shift())) {
     if (!p.buffered) {
       this.noparallel = true
       break
     }
-    this.debug(&#x27;start subtest&#x27;, p)
+    this.debug('start subtest', p)
     this.pool.add(p)
     if (this.bailedOut)
       this.onbufferedend(p)
@@ -8468,12 +8461,12 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
           this.onbufferedend.bind(this, p)))
   }
 
-  this.debug(&#x27;done processing&#x27;, this.queue, this.occupied)
+  this.debug('done processing', this.queue, this.occupied)
   this.processing = false
 
   // just in case any tests ended, and we have sync stuff still
   // waiting around in the queue to be processed
-  if (!this.occupied &#x26;&#x26; this.queue.length)
+  if (!this.occupied &amp;&amp; this.queue.length)
     this.process()
 
   this.maybeAutoend()
@@ -8491,28 +8484,28 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">processSubtest = function (p) {
-  this.debug(&#x27; &#x3e; subtest&#x27;)
+  this.debug(' &gt; subtest')
   this.occupied = p
   if (!p.buffered) {
     if (this.bailedOut)
       return this.onindentedend(p)
-    this.debug(&#x27; &#x3e; subtest indented&#x27;)
+    this.debug(' &gt; subtest indented')
     p.pipe(this.parser, { end: false })
     this.runBeforeEach(p,
       this.writeSubComment.bind(this, p,
         p.main.bind(p,
           this.onindentedend.bind(this, p))))
   } else if (p.readyToProcess) {
-    this.debug(&#x27; &#x3e; subtest buffered, finished&#x27;)
+    this.debug(' &gt; subtest buffered, finished')
     // finished!  do the thing!
     this.occupied = null
     if (!p.passing() || !p.silent) {
-      this.queue.unshift([&#x27;emitSubTeardown&#x27;, p])
+      this.queue.unshift(['emitSubTeardown', p])
       this.printResult(p.passing(), p.name, p.options, true)
     }
   } else {
     this.occupied = p
-    this.debug(&#x27; &#x3e; subtest buffered, unfinished&#x27;, p)
+    this.debug(' &gt; subtest buffered, unfinished', p)
     // unfinished buffered test.
     // nothing to do yet, just leave it there.
     this.queue.unshift(p)
@@ -8574,12 +8567,12 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">shouldAutoend = function () {
   var should = (
-    this.options.autoend &#x26;&#x26;
-    !this.ended &#x26;&#x26;
-    !this.occupied &#x26;&#x26;
-    queueEmpty(this) &#x26;&#x26;
-    !this.pool.length &#x26;&#x26;
-    !this.subtests.length &#x26;&#x26;
+    this.options.autoend &amp;&amp;
+    !this.ended &amp;&amp;
+    !this.occupied &amp;&amp;
+    queueEmpty(this) &amp;&amp;
+    !this.pool.length &amp;&amp;
+    !this.subtests.length &amp;&amp;
     this.planEnd === -1
   )
   return should
@@ -8597,19 +8590,19 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function spawn(cmd, args, options, name) {
-  if (typeof args === &#x27;string&#x27;) {
+  if (typeof args === 'string') {
     args = [ args ]
   }
 
   args = args || []
 
-  if (typeof options === &#x27;string&#x27;) {
+  if (typeof options === 'string') {
     name = options
     options = {}
   }
 
   options = options || {}
-  options.name = ownOr(options, &#x27;name&#x27;, name)
+  options.name = ownOr(options, 'name', name)
   options.command = cmd
   options.args = args
 
@@ -8628,7 +8621,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function stdin(name, extra) {
-  extra = parseTestArgs(name, extra, function () {}, &#x27;/dev/stdin&#x27;)
+  extra = parseTestArgs(name, extra, function () {}, '/dev/stdin')
   return this.sub(Stdin, extra || {}, stdin)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -8644,18 +8637,18 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">sub = function (Class, extra, caller) {
-  if (extra &#x26;&#x26; (extra.todo || extra.skip)) {
+  if (extra &amp;&amp; (extra.todo || extra.skip)) {
     this.pass(extra.name, extra)
     return Promise.resolve(this)
   }
 
-  extra.indent = &#x27;    &#x27;
-  if (this.jobs &#x3e; 1 &#x26;&#x26; process.env.TAP_BUFFER === undefined)
-    extra.buffered = ownOr(extra, &#x27;buffered&#x27;, true)
+  extra.indent = '    '
+  if (this.jobs &gt; 1 &amp;&amp; process.env.TAP_BUFFER === undefined)
+    extra.buffered = ownOr(extra, 'buffered', true)
   else
-    extra.buffered = ownOrEnv(extra, &#x27;buffered&#x27;, &#x27;TAP_BUFFER&#x27;, true)
+    extra.buffered = ownOrEnv(extra, 'buffered', 'TAP_BUFFER', true)
 
-  extra.bail = ownOr(extra, &#x27;bail&#x27;, this.bail)
+  extra.bail = ownOr(extra, 'bail', this.bail)
   extra.parent = this
   extra.stack = stack.captureString(80, caller)
   var t = new Class(extra)
@@ -8681,7 +8674,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">tearDown = function (fn) {
-  this.on(&#x27;teardown&#x27;, fn)
+  this.on('teardown', fn)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -8696,7 +8689,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">teardown = function (fn) {
-  this.on(&#x27;teardown&#x27;, fn)
+  this.on('teardown', fn)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -8720,16 +8713,16 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
   return false
 }
 
-return !(propertyName === &#x27;todo&#x27; ||
-propertyName === &#x27;time&#x27; ||
+return !(propertyName === 'todo' ||
+propertyName === 'time' ||
 /^_?tapChild/.<span class="apidocCodeKeywordSpan">test</span>(propertyName) ||
 /^tapStream/.test(propertyName) ||
 /^tapMochaTest/.test(propertyName) ||
-propertyName === &#x27;cb&#x27; ||
-propertyName === &#x27;name&#x27; ||
-propertyName === &#x27;indent&#x27; ||
-propertyName === &#x27;skip&#x27; ||
-propertyName === &#x27;bail&#x27; ||
+propertyName === 'cb' ||
+propertyName === 'name' ||
+propertyName === 'indent' ||
+propertyName === 'skip' ||
+propertyName === 'bail' ||
 ...</pre></li>
     </ul>
 
@@ -8743,18 +8736,18 @@ propertyName === &#x27;bail&#x27; ||
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">threw = function (er, extra, proxy) {
-  this.debug(&#x27;THREW&#x27;, er.message, extra, proxy)
+  this.debug('THREW', er.message, extra, proxy)
 
-  // event emitters &#x27;error&#x27; events need to re-throw so that they
-  // can jump out of the flow like a normal throw.  They&#x27;ll just
-  // end up back here once that happens, though, unless there&#x27;s a
+  // event emitters 'error' events need to re-throw so that they
+  // can jump out of the flow like a normal throw.  They'll just
+  // end up back here once that happens, though, unless there's a
   // try/catch somewhere in the call stack.
   if (er.domainEmitter) {
     delete er.domainEmitter
     throw er
   }
 
-  if (this.name &#x26;&#x26; !proxy)
+  if (this.name &amp;&amp; !proxy)
     er.test = this.name
   if (!proxy)
     extra = extraFromError(er, extra, this.options)
@@ -8801,10 +8794,10 @@ propertyName === &#x27;bail&#x27; ||
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">writeSubComment = function (p, cb) {
-  var comment = &#x27;# Subtest&#x27;
+  var comment = '# Subtest'
   if (p.name)
-    comment += &#x27;: &#x27; + p.name
-  comment += &#x27;\n&#x27;
+    comment += ': ' + p.name
+  comment += '\n'
   this.parser.write(comment)
   cb()
 }</pre></li>
@@ -8827,30 +8820,30 @@ propertyName === &#x27;bail&#x27; ||
     <ul>
     <li>description and source-code<pre class="apidocCodePre">addAssert = function (name, length, fn) {
   if (!name)
-    throw new TypeError(&#x27;name is required for addAssert&#x27;)
+    throw new TypeError('name is required for addAssert')
 
-  if (!(typeof length === &#x27;number&#x27; &#x26;&#x26; length &#x3e;= 0))
-    throw new TypeError(&#x27;number of args required&#x27;)
+  if (!(typeof length === 'number' &amp;&amp; length &gt;= 0))
+    throw new TypeError('number of args required')
 
-  if (typeof fn !== &#x27;function&#x27;)
-    throw new TypeError(&#x27;function required for addAssert&#x27;)
+  if (typeof fn !== 'function')
+    throw new TypeError('function required for addAssert')
 
   if (Test.prototype[name] || this[name])
-    throw new TypeError(&#x27;attempt to re-define `&#x27; + name + &#x27;` assert&#x27;)
+    throw new TypeError('attempt to re-define `' + name + '` assert')
 
   this[name] = function ASSERT () {
     if (!this.currentAssert) {
       this.currentAssert = ASSERT
     }
     var args = new Array(length + 2)
-    for (var i = 0; i &#x3c; length; i++) {
+    for (var i = 0; i &lt; length; i++) {
       args[i] = arguments[i]
     }
-    if (typeof arguments[length] === &#x27;object&#x27;) {
-      args[length] = &#x27;&#x27;
+    if (typeof arguments[length] === 'object') {
+      args[length] = ''
       args[length + 1] = arguments[length]
     } else {
-      args[length] = arguments[length] || &#x27;&#x27;
+      args[length] = arguments[length] || ''
       args[length + 1] = arguments[length + 1] || {}
     }
 
@@ -8865,8 +8858,8 @@ propertyName === &#x27;bail&#x27; ||
 exports.decorate = decorate
 
 function decorate (t) {
-t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, function (obj, message, extra) {
-  message = message || &#x27;expect truthy value&#x27;
+t.<span class="apidocCodeKeywordSpan">addAssert</span>('ok', 1, function (obj, message, extra) {
+  message = message || 'expect truthy value'
   if (obj) {
     return this.pass(message, extra)
   }
@@ -8932,13 +8925,13 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">bailout = function (message) {
-  if (this.parent &#x26;&#x26; (this.results || this.ended))
+  if (this.parent &amp;&amp; (this.results || this.ended))
     this.parent.bailout(message)
   else {
     this.process()
-    message = message ? &#x27; &#x27; + (&#x27;&#x27; + message).trim() : &#x27;&#x27;
-    message = message.replace(/[\r\n]/g, &#x27; &#x27;)
-    this.parser.write(&#x27;Bail out!&#x27; + message + &#x27;\n&#x27;)
+    message = message ? ' ' + ('' + message).trim() : ''
+    message = message.replace(/[\r\n]/g, ' ')
+    this.parser.write('Bail out!' + message + '\n')
   }
   this.end(IMPLICIT)
   this.process()
@@ -8982,7 +8975,7 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     <ul>
     <li>description and source-code<pre class="apidocCodePre">comment = function () {
   var message = util.format.apply(util, arguments)
-  message = &#x27;# &#x27; + message.split(/\r?\n/).join(&#x27;\n# &#x27;) + &#x27;\n&#x27;
+  message = '# ' + message.split(/\r?\n/).join('\n# ') + '\n'
 
   if (this.results)
     this.push(message)
@@ -9008,7 +9001,7 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">current = function () {
-  throw new Error(&#x27;Test.current() as been removed and is no more&#x27;)
+  throw new Error('Test.current() as been removed and is no more')
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -9029,7 +9022,7 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     <ul>
     <li>description and source-code<pre class="apidocCodePre">emitSubTeardown = function (p) {
   try {
-    p.emit(&#x27;teardown&#x27;)
+    p.emit('teardown')
   } catch (er) {
     delete p.options.time
     p.threw(er)
@@ -9053,20 +9046,20 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">end = function (implicit) {
-  this.debug(&#x27;END implicit=%j&#x27;, implicit === IMPLICIT)
-  if (this.ended &#x26;&#x26; implicit === IMPLICIT)
+  this.debug('END implicit=%j', implicit === IMPLICIT)
+  if (this.ended &amp;&amp; implicit === IMPLICIT)
     return
 
   // beyond here we have to be actually done with things, or else
   // the semantic checks on counts and such will be off.
   if (!queueEmpty(this) || this.occupied) {
     if (!this.pushedEnd)
-      this.queue.push([&#x27;end&#x27;, implicit])
+      this.queue.push(['end', implicit])
     this.pushedEnd = true
     return this.process()
   }
 
-  if (!this.ranAfterEach &#x26;&#x26; this.parent) {
+  if (!this.ranAfterEach &amp;&amp; this.parent) {
     this.ranAfterEach = true
     this.parent.runAfterEach(this, end.bind(this, implicit))
   } else
@@ -9096,7 +9089,7 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     if (p.endAll)
       p.endAll(true)
     else {
-      p.parser.abort(&#x27;test unfinished&#x27;)
+      p.parser.abort('test unfinished')
     }
   } else if (sub) {
     this.process()
@@ -9106,12 +9099,12 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
         return o
       }.bind(this), {})
       this.options.at = null
-      this.options.stack = &#x27;&#x27;
+      this.options.stack = ''
       options.test = this.name
-      this.fail(&#x27;test unfinished&#x27;, options)
+      this.fail('test unfinished', options)
     }
   }
-  if (this.promise &#x26;&#x26; this.promise.tapAbortPromise)
+  if (this.promise &amp;&amp; this.promise.tapAbortPromise)
     this.promise.tapAbortPromise()
   if (this.occupied) {
     this.queue.unshift(this.occupied)
@@ -9144,12 +9137,12 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     this.currentAssert = fail
   }
 
-  if (message &#x26;&#x26; typeof message === &#x27;object&#x27;) {
+  if (message &amp;&amp; typeof message === 'object') {
     extra = message
-    message = &#x27;&#x27;
+    message = ''
   } else {
     if (!message) {
-      message = &#x27;&#x27;
+      message = ''
     }
     if (!extra) {
       extra = {}
@@ -9159,15 +9152,15 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
   this.printResult(false, message, extra)
 
   var ret = true
-  if (!extra.todo &#x26;&#x26; !extra.skip)
+  if (!extra.todo &amp;&amp; !extra.skip)
     ret = false
 
   return ret
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 function decorate (t) {
-t.addAssert(&#x27;ok&#x27;, 1, function (obj, message, extra) {
-  message = message || &#x27;expect truthy value&#x27;
+t.addAssert('ok', 1, function (obj, message, extra) {
+  message = message || 'expect truthy value'
   if (obj) {
     return this.pass(message, extra)
   }
@@ -9175,8 +9168,8 @@ t.addAssert(&#x27;ok&#x27;, 1, function (obj, message, extra) {
   return this.<span class="apidocCodeKeywordSpan">fail</span>(message, extra)
 })
 
-t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
-  message = message || &#x27;expect falsey value&#x27;
+t.addAssert('notOk', 1, function (obj, message, extra) {
+  message = message || 'expect falsey value'
   return this.ok(!obj, message, extra)
 })
 ...</pre></li>
@@ -9198,7 +9191,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">main = function (cb) {
   this.setTimeout(this.options.timeout)
-  this.debug(&#x27;MAIN pre&#x27;, this)
+  this.debug('MAIN pre', this)
 
   var self = this
   try {
@@ -9207,7 +9200,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     this.threw(er)
   }
 
-  if (ret &#x26;&#x26; ret.then) {
+  if (ret &amp;&amp; ret.then) {
     this.promise = ret
     ret.tapAbortPromise = done
     ret.then(end, done)
@@ -9215,7 +9208,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     done()
 
   function end () {
-    self.debug(&#x27; &#x3e; implicit end for promise&#x27;)
+    self.debug(' &gt; implicit end for promise')
     self.end(IMPLICIT)
     done()
   }
@@ -9230,7 +9223,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
       self.ondone = cb
   }
 
-  this.debug(&#x27;MAIN post&#x27;, this)
+  this.debug('MAIN post', this)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -9288,16 +9281,16 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
   p.results = p.results || {}
   p.readyToProcess = true
   var to = p.options.timeout
-  if (to &#x26;&#x26; p.passing())
+  if (to &amp;&amp; p.passing())
     var dur = Date.now() - p.start
-  if (dur &#x26;&#x26; dur &#x3e; to)
+  if (dur &amp;&amp; dur &gt; to)
     p.timeout()
   else
     p.setTimeout(false)
-  this.debug(&#x27;%s.onbufferedend&#x27;, this.name, p.name, p.results.bailout)
+  this.debug('%s.onbufferedend', this.name, p.name, p.results.bailout)
   this.pool.remove(p)
-  p.options.tapChildBuffer = p.output || &#x27;&#x27;
-  p.options.stack = &#x27;&#x27;
+  p.options.tapChildBuffer = p.output || ''
+  p.options.stack = ''
   if (p.time)
     p.options.time = p.time
   if (this.occupied === p)
@@ -9326,7 +9319,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">onindentedend = function (p, er) {
   delete p.ondone
-  this.debug(&#x27;onindentedend&#x27;, p)
+  this.debug('onindentedend', p)
   this.noparallel = false
   var sti = this.subtests.indexOf(p)
   if (sti !== -1)
@@ -9336,22 +9329,22 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
   if (p.time)
     p.options.time = p.time
   var to = p.options.timeout
-  if (to &#x26;&#x26; p.passing())
+  if (to &amp;&amp; p.passing())
     var dur = Date.now() - p.start
-  if (dur &#x26;&#x26; dur &#x3e; to)
+  if (dur &amp;&amp; dur &gt; to)
     p.timeout()
   else
     p.setTimeout(false)
-  this.debug(&#x27;onindentedend %s(%s)&#x27;, this.name, p.name, er || &#x27;ok&#x27;)
+  this.debug('onindentedend %s(%s)', this.name, p.name, er || 'ok')
   assert(this.occupied === p)
   this.occupied = null
-  this.debug(&#x27;OIE(%s) b&#x3e;shift into queue&#x27;, this.name, this.queue)
-  p.options.stack = &#x27;&#x27;
+  this.debug('OIE(%s) b&gt;shift into queue', this.name, this.queue)
+  p.options.stack = ''
 
-  this.queue.unshift([&#x27;emitSubTeardown&#x27;, p])
+  this.queue.unshift(['emitSubTeardown', p])
   this.printResult(p.passing(), p.name, p.options, true)
 
-  this.debug(&#x27;OIE(%s) shifted into queue&#x27;, this.name, this.queue)
+  this.debug('OIE(%s) shifted into queue', this.name, this.queue)
   if (er)
     this.threw(er)
   p.deferred.resolve(this)
@@ -9378,7 +9371,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
   if (!this.currentAssert) {
     this.currentAssert = pass
   }
-  this.printResult(true, message || &#x27;(unnamed test)&#x27;, extra)
+  this.printResult(true, message || '(unnamed test)', extra)
   return true
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
@@ -9386,8 +9379,8 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
 exports.decorate = decorate
 
 function decorate (t) {
-t.addAssert(&#x27;ok&#x27;, 1, function (obj, message, extra) {
-  message = message || &#x27;expect truthy value&#x27;
+t.addAssert('ok', 1, function (obj, message, extra) {
+  message = message || 'expect truthy value'
   if (obj) {
     return this.<span class="apidocCodeKeywordSpan">pass</span>(message, extra)
   }
@@ -9395,8 +9388,8 @@ t.addAssert(&#x27;ok&#x27;, 1, function (obj, message, extra) {
   return this.fail(message, extra)
 })
 
-t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
-  message = message || &#x27;expect falsey value&#x27;
+t.addAssert('notOk', 1, function (obj, message, extra) {
+  message = message || 'expect falsey value'
 ...</pre></li>
     </ul>
 
@@ -9419,11 +9412,11 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     return
 
   if (this.planEnd !== -1) {
-    throw new Error(&#x27;Cannot set plan more than once&#x27;)
+    throw new Error('Cannot set plan more than once')
   }
 
-  if (typeof n !== &#x27;number&#x27; || n &#x3c; 0) {
-    throw new TypeError(&#x27;plan must be a number&#x27;)
+  if (typeof n !== 'number' || n &lt; 0) {
+    throw new TypeError('plan must be a number')
   }
 
   // Cannot get any tests after a trailing plan, or a plan of 0
@@ -9436,8 +9429,8 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     this.skip = comment || true
 
   this.planEnd = n
-  comment = comment ? &#x27; # &#x27; + comment.trim() : &#x27;&#x27;
-  this.queue.push(&#x27;1..&#x27; + n + comment + &#x27;\n&#x27;)
+  comment = comment ? ' # ' + comment.trim() : ''
+  this.queue.push('1..' + n + comment + '\n')
 
   if (ending)
     this.end(IMPLICIT)
@@ -9462,9 +9455,9 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">pragma = function (set) {
-  var p = &#x27;&#x27;
+  var p = ''
   Object.keys(set).forEach(function (i) {
-    p += &#x27;pragma &#x27; + (set[i] ? &#x27;+&#x27; : &#x27;-&#x27;) + i + &#x27;\n&#x27;
+    p += 'pragma ' + (set[i] ? '+' : '-') + i + '\n'
   })
   this.queue.push(p)
   this.process()
@@ -9488,13 +9481,13 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function pR(ok, message, extra, front) {
   var n = this.count + 1
-  if (this.planEnd !== -1 &#x26;&#x26; n &#x3e; this.planEnd) {
+  if (this.planEnd !== -1 &amp;&amp; n &gt; this.planEnd) {
     if (!this.passing())
       return
 
     var failMessage = this.explicitEnded
-        ? &#x27;test after end() was called&#x27;
-        : &#x27;test count exceeds plan&#x27;
+        ? 'test after end() was called'
+        : 'test count exceeds plan'
 
     var er = new Error(failMessage)
     Error.captureStackTrace(er, this.currentAssert || pR)
@@ -9516,13 +9509,13 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     this.assertStack = null
   }
 
-  if (hasOwn(extra, &#x27;stack&#x27;) &#x26;&#x26; !hasOwn(extra, &#x27;at&#x27;))
-    extra.at = stack.parseLine(extra.stack.split(&#x27;\n&#x27;)[0])
+  if (hasOwn(extra, 'stack') &amp;&amp; !hasOwn(extra, 'at'))
+    extra.at = stack.parseLine(extra.stack.split('\n')[0])
 
   var fn = this.currentAssert || pR
   this.currentAssert = null
-  if (!ok &#x26;&#x26; !extra.skip &#x26;&#x26; !hasOwn(extra, &#x27;at&#x27;)) {
-    assert.equal(typeof fn, &#x27;function&#x27;)
+  if (!ok &amp;&amp; !extra.skip &amp;&amp; !hasOwn(extra, 'at')) {
+    assert.equal(typeof fn, 'function')
     extra.at = stack.at(fn)
     if (!extra.todo)
       extra.stack = stack.captureString(80, fn)
@@ -9535,10 +9528,10 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
   if (extra.skip)
     diagnostic = false
 
-  if (process.env.TAP_DIAG === &#x27;0&#x27;)
+  if (process.env.TAP_DIAG === '0')
     diagnostic = false
 
-  if (typeof extra.diagnostic === &#x27;boolean&#x27;)
+  if (typeof extra.diagnostic === 'boolean')
     diagnostic = extra.diagnostic
 
   if (diagnostic)
@@ -9549,13 +9542,13 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
   var output = new TestPoint(ok, message, extra)
   // when we jump the queue, skip an extra line
   if (front)
-    output.message = output.message.trimRight() + &#x27;\n\n&#x27;
+    output.message = output.message.trimRight() + '\n\n'
 
   if (front) {
-    this.emit(&#x27;result&#x27;, res)
+    this.emit('result', res)
     this.parser.write(output.ok + (++this.n) + output.message)
   } else
-    this.queue.push([&#x27;emit&#x27;, &#x27;result&#x27;, res], output)
+    this.queue.push(['emit', 'result', res], output)
 
   if (this.planEnd === this.count)
     this.end(IMPLICIT)
@@ -9581,44 +9574,44 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">process = function () {
   if (this.processing)
-    return this.debug(&#x27; &#x3c; already processing&#x27;)
+    return this.debug(' &lt; already processing')
 
-  this.debug(&#x27;\nPROCESSING(%s)&#x27;, this.name, this.queue.length)
+  this.debug('\nPROCESSING(%s)', this.name, this.queue.length)
   this.processing = true
 
   var p
 
-  while (!this.occupied &#x26;&#x26; (p = this.queue.shift())) {
-    this.debug(&#x27;PROCESS(%s)&#x27;, this.name, p)
+  while (!this.occupied &amp;&amp; (p = this.queue.shift())) {
+    this.debug('PROCESS(%s)', this.name, p)
     if (p instanceof Base) {
       this.processSubtest(p)
     } else if (p === EOF) {
-      this.debug(&#x27; &#x3e; EOF&#x27;, this.name)
+      this.debug(' &gt; EOF', this.name)
       // I AM BECOME EOF, DESTROYER OF STREAMS
       this.parser.end()
     } else if (p instanceof TestPoint) {
-      this.debug(&#x27; &#x3e; TESTPOINT&#x27;)
+      this.debug(' &gt; TESTPOINT')
       this.parser.write(p.ok + (++this.n) + p.message)
-    } else if (typeof p === &#x27;string&#x27;) {
-      this.debug(&#x27; &#x3e; STRING&#x27;)
+    } else if (typeof p === 'string') {
+      this.debug(' &gt; STRING')
       this.parser.write(p)
     } else if (Array.isArray(p)) {
-      this.debug(&#x27; &#x3e; METHOD&#x27;)
+      this.debug(' &gt; METHOD')
       var m = p.shift()
       this[m].apply(this, p)
     } else {
-      throw new Error(&#x27;weird thing got in the queue&#x27;)
+      throw new Error('weird thing got in the queue')
     }
   }
 
-  while (!this.noparallel &#x26;&#x26;
-         this.pool.length &#x3c; this.jobs &#x26;&#x26;
+  while (!this.noparallel &amp;&amp;
+         this.pool.length &lt; this.jobs &amp;&amp;
          (p = this.subtests.shift())) {
     if (!p.buffered) {
       this.noparallel = true
       break
     }
-    this.debug(&#x27;start subtest&#x27;, p)
+    this.debug('start subtest', p)
     this.pool.add(p)
     if (this.bailedOut)
       this.onbufferedend(p)
@@ -9628,12 +9621,12 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
           this.onbufferedend.bind(this, p)))
   }
 
-  this.debug(&#x27;done processing&#x27;, this.queue, this.occupied)
+  this.debug('done processing', this.queue, this.occupied)
   this.processing = false
 
   // just in case any tests ended, and we have sync stuff still
   // waiting around in the queue to be processed
-  if (!this.occupied &#x26;&#x26; this.queue.length)
+  if (!this.occupied &amp;&amp; this.queue.length)
     this.process()
 
   this.maybeAutoend()
@@ -9656,28 +9649,28 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">processSubtest = function (p) {
-  this.debug(&#x27; &#x3e; subtest&#x27;)
+  this.debug(' &gt; subtest')
   this.occupied = p
   if (!p.buffered) {
     if (this.bailedOut)
       return this.onindentedend(p)
-    this.debug(&#x27; &#x3e; subtest indented&#x27;)
+    this.debug(' &gt; subtest indented')
     p.pipe(this.parser, { end: false })
     this.runBeforeEach(p,
       this.writeSubComment.bind(this, p,
         p.main.bind(p,
           this.onindentedend.bind(this, p))))
   } else if (p.readyToProcess) {
-    this.debug(&#x27; &#x3e; subtest buffered, finished&#x27;)
+    this.debug(' &gt; subtest buffered, finished')
     // finished!  do the thing!
     this.occupied = null
     if (!p.passing() || !p.silent) {
-      this.queue.unshift([&#x27;emitSubTeardown&#x27;, p])
+      this.queue.unshift(['emitSubTeardown', p])
       this.printResult(p.passing(), p.name, p.options, true)
     }
   } else {
     this.occupied = p
-    this.debug(&#x27; &#x3e; subtest buffered, unfinished&#x27;, p)
+    this.debug(' &gt; subtest buffered, unfinished', p)
     // unfinished buffered test.
     // nothing to do yet, just leave it there.
     this.queue.unshift(p)
@@ -9754,12 +9747,12 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">shouldAutoend = function () {
   var should = (
-    this.options.autoend &#x26;&#x26;
-    !this.ended &#x26;&#x26;
-    !this.occupied &#x26;&#x26;
-    queueEmpty(this) &#x26;&#x26;
-    !this.pool.length &#x26;&#x26;
-    !this.subtests.length &#x26;&#x26;
+    this.options.autoend &amp;&amp;
+    !this.ended &amp;&amp;
+    !this.occupied &amp;&amp;
+    queueEmpty(this) &amp;&amp;
+    !this.pool.length &amp;&amp;
+    !this.subtests.length &amp;&amp;
     this.planEnd === -1
   )
   return should
@@ -9782,19 +9775,19 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function spawn(cmd, args, options, name) {
-  if (typeof args === &#x27;string&#x27;) {
+  if (typeof args === 'string') {
     args = [ args ]
   }
 
   args = args || []
 
-  if (typeof options === &#x27;string&#x27;) {
+  if (typeof options === 'string') {
     name = options
     options = {}
   }
 
   options = options || {}
-  options.name = ownOr(options, &#x27;name&#x27;, name)
+  options.name = ownOr(options, 'name', name)
   options.command = cmd
   options.args = args
 
@@ -9818,7 +9811,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function stdin(name, extra) {
-  extra = parseTestArgs(name, extra, function () {}, &#x27;/dev/stdin&#x27;)
+  extra = parseTestArgs(name, extra, function () {}, '/dev/stdin')
   return this.sub(Stdin, extra || {}, stdin)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -9839,18 +9832,18 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">sub = function (Class, extra, caller) {
-  if (extra &#x26;&#x26; (extra.todo || extra.skip)) {
+  if (extra &amp;&amp; (extra.todo || extra.skip)) {
     this.pass(extra.name, extra)
     return Promise.resolve(this)
   }
 
-  extra.indent = &#x27;    &#x27;
-  if (this.jobs &#x3e; 1 &#x26;&#x26; process.env.TAP_BUFFER === undefined)
-    extra.buffered = ownOr(extra, &#x27;buffered&#x27;, true)
+  extra.indent = '    '
+  if (this.jobs &gt; 1 &amp;&amp; process.env.TAP_BUFFER === undefined)
+    extra.buffered = ownOr(extra, 'buffered', true)
   else
-    extra.buffered = ownOrEnv(extra, &#x27;buffered&#x27;, &#x27;TAP_BUFFER&#x27;, true)
+    extra.buffered = ownOrEnv(extra, 'buffered', 'TAP_BUFFER', true)
 
-  extra.bail = ownOr(extra, &#x27;bail&#x27;, this.bail)
+  extra.bail = ownOr(extra, 'bail', this.bail)
   extra.parent = this
   extra.stack = stack.captureString(80, caller)
   var t = new Class(extra)
@@ -9881,7 +9874,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">tearDown = function (fn) {
-  this.on(&#x27;teardown&#x27;, fn)
+  this.on('teardown', fn)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -9910,16 +9903,16 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
   return false
 }
 
-return !(propertyName === &#x27;todo&#x27; ||
-propertyName === &#x27;time&#x27; ||
+return !(propertyName === 'todo' ||
+propertyName === 'time' ||
 /^_?tapChild/.<span class="apidocCodeKeywordSpan">test</span>(propertyName) ||
 /^tapStream/.test(propertyName) ||
 /^tapMochaTest/.test(propertyName) ||
-propertyName === &#x27;cb&#x27; ||
-propertyName === &#x27;name&#x27; ||
-propertyName === &#x27;indent&#x27; ||
-propertyName === &#x27;skip&#x27; ||
-propertyName === &#x27;bail&#x27; ||
+propertyName === 'cb' ||
+propertyName === 'name' ||
+propertyName === 'indent' ||
+propertyName === 'skip' ||
+propertyName === 'bail' ||
 ...</pre></li>
     </ul>
 
@@ -9938,18 +9931,18 @@ propertyName === &#x27;bail&#x27; ||
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">threw = function (er, extra, proxy) {
-  this.debug(&#x27;THREW&#x27;, er.message, extra, proxy)
+  this.debug('THREW', er.message, extra, proxy)
 
-  // event emitters &#x27;error&#x27; events need to re-throw so that they
-  // can jump out of the flow like a normal throw.  They&#x27;ll just
-  // end up back here once that happens, though, unless there&#x27;s a
+  // event emitters 'error' events need to re-throw so that they
+  // can jump out of the flow like a normal throw.  They'll just
+  // end up back here once that happens, though, unless there's a
   // try/catch somewhere in the call stack.
   if (er.domainEmitter) {
     delete er.domainEmitter
     throw er
   }
 
-  if (this.name &#x26;&#x26; !proxy)
+  if (this.name &amp;&amp; !proxy)
     er.test = this.name
   if (!proxy)
     extra = extraFromError(er, extra, this.options)
@@ -10006,10 +9999,10 @@ propertyName === &#x27;bail&#x27; ||
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">writeSubComment = function (p, cb) {
-  var comment = &#x27;# Subtest&#x27;
+  var comment = '# Subtest'
   if (p.name)
-    comment += &#x27;: &#x27; + p.name
-  comment += &#x27;\n&#x27;
+    comment += ': ' + p.name
+  comment += '\n'
   this.parser.write(comment)
   cb()
 }</pre></li>
@@ -10039,8 +10032,8 @@ propertyName === &#x27;bail&#x27; ||
 exports.decorate = decorate
 
 function decorate (t) {
-t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, function (obj, message, extra) {
-  message = message || &#x27;expect truthy value&#x27;
+t.<span class="apidocCodeKeywordSpan">addAssert</span>('ok', 1, function (obj, message, extra) {
+  message = message || 'expect truthy value'
   if (obj) {
     return this.pass(message, extra)
   }
@@ -10083,8 +10076,8 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function decorate(t) {
-  t.addAssert(&#x27;ok&#x27;, 1, function (obj, message, extra) {
-    message = message || &#x27;expect truthy value&#x27;
+  t.addAssert('ok', 1, function (obj, message, extra) {
+    message = message || 'expect truthy value'
     if (obj) {
       return this.pass(message, extra)
     }
@@ -10092,19 +10085,19 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     return this.fail(message, extra)
   })
 
-  t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
-    message = message || &#x27;expect falsey value&#x27;
+  t.addAssert('notOk', 1, function (obj, message, extra) {
+    message = message || 'expect falsey value'
     return this.ok(!obj, message, extra)
   })
 
-  t.addAssert(&#x27;error&#x27;, 1, function (er, message, extra) {
+  t.addAssert('error', 1, function (er, message, extra) {
     if (!er) {
-      return this.pass(message || &#x27;should not error&#x27;, extra)
+      return this.pass(message || 'should not error', extra)
     }
 
     if (!(er instanceof Error)) {
       extra.found = er
-      return this.fail(message || &#x27;non-Error error encountered&#x27;, extra)
+      return this.fail(message || 'non-Error error encountered', extra)
     }
 
     message = message || er.message
@@ -10112,88 +10105,88 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     return this.fail(message, extra)
   })
 
-  t.addAssert(&#x27;equal&#x27;, 2, function (f, w, m, e) {
-    m = m || &#x27;should be equal&#x27;
+  t.addAssert('equal', 2, function (f, w, m, e) {
+    m = m || 'should be equal'
     if (f === w) {
       return this.pass(m, e)
     }
 
     e.found = f
     e.wanted = w
-    e.compare = &#x27;===&#x27;
+    e.compare = '==='
 
-    if (typeof f === &#x27;object&#x27; &#x26;&#x26;
-        typeof w === &#x27;object&#x27; &#x26;&#x26;
-        f &#x26;&#x26;
-        w &#x26;&#x26;
+    if (typeof f === 'object' &amp;&amp;
+        typeof w === 'object' &amp;&amp;
+        f &amp;&amp;
+        w &amp;&amp;
         shallower(f, w)) {
-      e.note = &#x27;Objects never === one another&#x27;
+      e.note = 'Objects never === one another'
     }
 
     return this.fail(m, e)
   })
 
-  t.addAssert(&#x27;not&#x27;, 2, function (f, w, m, e) {
-    m = m || &#x27;should not be equal&#x27;
+  t.addAssert('not', 2, function (f, w, m, e) {
+    m = m || 'should not be equal'
     if (f !== w) {
       return this.pass(m, e)
     }
 
     e.found = f
     e.doNotWant = w
-    e.compare = &#x27;!==&#x27;
+    e.compare = '!=='
 
     return this.fail(m, e)
   })
 
-  t.addAssert(&#x27;same&#x27;, 2, function (f, w, m, e) {
-    m = m || &#x27;should be equivalent&#x27;
+  t.addAssert('same', 2, function (f, w, m, e) {
+    m = m || 'should be equivalent'
     e.found = f
     e.wanted = w
     return this.ok(shallower(f, w), m, e)
   })
 
-  t.addAssert(&#x27;notSame&#x27;, 2, function (f, w, m, e) {
-    m = m || &#x27;should not be equivalent&#x27;
+  t.addAssert('notSame', 2, function (f, w, m, e) {
+    m = m || 'should not be equivalent'
     e.found = f
     e.doNotWant = w
     return this.notOk(shallower(f, w), m, e)
   })
 
-  t.addAssert(&#x27;strictSame&#x27;, 2, function (f, w, m, e) {
-    m = m || &#x27;should be equivalent strictly&#x27;
+  t.addAssert('strictSame', 2, function (f, w, m, e) {
+    m = m || 'should be equivalent strictly'
     e.found = f
     e.wanted = w
     return this.ok(deeper(f, w), m, e)
   })
 
-  t.addAssert(&#x27;strictNotSame&#x27;, 2, function (f, w, m, e) {
-    m = m || &#x27;should be equivalent strictly&#x27;
+  t.addAssert('strictNotSame', 2, function (f, w, m, e) {
+    m = m || 'should be equivalent strictly'
     e.found = f
     e.doNotWant = w
     return this.notOk(deeper(f, w), m, e)
   })
 
-  t.addAssert(&#x27;match&#x27;, 2, function (f, w, m, e) {
-    m = m || &#x27;should match pattern provided&#x27;
+  t.addAssert('match', 2, function (f, w, m, e) {
+    m = m || 'should match pattern provided'
     e.found = f
     e.pattern = w
     return this.ok(tmatch(f, w), m, e)
   })
 
-  t.addAssert(&#x27;notMatch&#x27;, 2, function (f, w, m, e) {
-    m = m || &#x27;should not match pattern provided&#x27;
+  t.addAssert('notMatch', 2, function (f, w, m, e) {
+    m = m || 'should not match pattern provided'
     e.found = f
     e.pattern = w
     return this.ok(!tmatch(f, w), m, e)
   })
 
-  t.addAssert(&#x27;type&#x27;, 2, function (obj, klass, m, e) {
+  t.addAssert('type', 2, function (obj, klass, m, e) {
     var name = klass
-    if (typeof name === &#x27;function&#x27;) {
-      name = name.name || &#x27;(anonymous constructor)&#x27;
+    if (typeof name === 'function') {
+      name = name.name || '(anonymous constructor)'
     }
-    m = m || &#x27;type is &#x27; + name
+    m = m || 'type is ' + name
 
     // simplest case, it literally is the same thing
     if (obj === klass) {
@@ -10201,12 +10194,12 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     }
 
     var type = typeof obj
-    if (!obj &#x26;&#x26; type === &#x27;object&#x27;) {
-      type = &#x27;null&#x27;
+    if (!obj &amp;&amp; type === 'object') {
+      type = 'null'
     }
 
-    if (type === &#x27;object&#x27; &#x26;&#x26; klass !== &#x27;object&#x27;) {
-      if (typeof klass === &#x27;function&#x27;) {
+    if (type === 'object' &amp;&amp; klass !== 'object') {
+      if (typeof klass === 'function') {
         e.found = Object.getPrototypeOf(obj).constructor.name
         e.wanted = name
         return this.ok(obj instanceof klass, m, e)
@@ -10218,7 +10211,7 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
       // if the name specified is the name of a ctor in the chain, pass
       var p = obj
       do {
-        var ctor = p.constructor &#x26;&#x26; p.constructor.name
+        var ctor = p.constructor &amp;&amp; p.constructor.name
         if (p === klass || ctor === name) {
           return this.pass(m, e)
         }
@@ -10229,19 +10222,19 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     return this.equal(type, name, m, e)
   })
 
-  t.addAssert(&#x27;throws&#x27;, 4, function (fn_, wanted_, m_, e_, m, e__) {
+  t.addAssert('throws', 4, function (fn_, wanted_, m_, e_, m, e__) {
     var fn, wanted, e
-    for (var i = 0; i &#x3c; arguments.length - 1; i++) {
+    for (var i = 0; i &lt; arguments.length - 1; i++) {
       var arg = arguments[i]
-      if (typeof arg === &#x27;function&#x27;) {
+      if (typeof arg === 'function') {
         if (arg === Error || arg.prototype instanceof Error) {
           wanted = arg
         } else if (!fn) {
           fn = arg
         }
-      } else if (typeof arg === &#x27;string&#x27; &#x26;&#x26; arg) {
+      } else if (typeof arg === 'string' &amp;&amp; arg) {
         m = arg
-      } else if (typeof arg === &#x27;object&#x27;) {
+      } else if (typeof arg === 'object') {
         if ...</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -10333,23 +10326,23 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function cleanTapYamlObject(object) {
-  if (hasOwn(object, &#x27;stack&#x27;) &#x26;&#x26; !hasOwn(object, &#x27;at&#x27;))
-    object.at = stack.parseLine(object.stack.split(&#x27;\n&#x27;)[0])
+  if (hasOwn(object, 'stack') &amp;&amp; !hasOwn(object, 'at'))
+    object.at = stack.parseLine(object.stack.split('\n')[0])
 
-  var file = object.at &#x26;&#x26; object.at.file &#x26;&#x26; path.resolve(object.at.file)
-  if (file &#x26;&#x26; (file.indexOf(__dirname) === 0 || file.indexOf(binpath) === 0))
+  var file = object.at &amp;&amp; object.at.file &amp;&amp; path.resolve(object.at.file)
+  if (file &amp;&amp; (file.indexOf(__dirname) === 0 || file.indexOf(binpath) === 0))
     delete object.at
 
-  if (object.at &#x26;&#x26; object.at.file &#x26;&#x26; object.at.line &#x26;&#x26; !object.source) {
+  if (object.at &amp;&amp; object.at.file &amp;&amp; object.at.line &amp;&amp; !object.source) {
     var content
     file = path.resolve(object.at.file)
     try {
       content = Module.wrap(fs.readFileSync(file))
     } catch (er) {}
     if (content) {
-      content = (content.split(&#x27;\n&#x27;)[object.at.line - 1] || &#x27;&#x27;).trim()
+      content = (content.split('\n')[object.at.line - 1] || '').trim()
       if (content)
-        object.source = content + &#x27;\n&#x27;
+        object.source = content + '\n'
     }
   }
 
@@ -10411,7 +10404,7 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     <li>description and source-code<pre class="apidocCodePre">function diags(extra) {
   var y = objToYaml(extra)
   if (y)
-    y = &#x27;\n&#x27; + y
+    y = '\n' + y
 
   return y
 }</pre></li>
@@ -10506,12 +10499,12 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     <ul>
     <li>description and source-code<pre class="apidocCodePre">extra_from_error = function (er, extra, options) {
   extra = Object.keys(options || {}).reduce(function (set, k) {
-    if (!(k in set) &#x26;&#x26; !/^tapChild/.test(k))
+    if (!(k in set) &amp;&amp; !/^tapChild/.test(k))
       set[k] = options[k]
     return set
   }, extra || {})
 
-  if (!er || typeof er !== &#x27;object&#x27;) {
+  if (!er || typeof er !== 'object') {
     extra.error = er
     return extra
   }
@@ -10519,30 +10512,30 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
   var message = er.message
   var addName = true
 
-  if (!message &#x26;&#x26; er.stack) {
-    message = er.stack.split(&#x27;\n&#x27;)[0]
+  if (!message &amp;&amp; er.stack) {
+    message = er.stack.split('\n')[0]
     addName = false
   }
 
-  er.message = &#x27;&#x27;
+  er.message = ''
   var st = er.stack
   if (st) {
-    st = st.split(&#x27;\n&#x27;)
-    // parse out the &#x27;at&#x27; bit from the first line.
+    st = st.split('\n')
+    // parse out the 'at' bit from the first line.
     extra.at = stack.parseLine(st[1])
     extra.stack = stack.clean(st)
   }
   er.message = message
 
-  if (er.name &#x26;&#x26; er.name !== &#x27;Error&#x27;)
+  if (er.name &amp;&amp; er.name !== 'Error')
     extra.type = er.name
 
   Object.keys(er).forEach(function (k) {
-    if (k === &#x27;message&#x27; ||
-        k === &#x27;domainEmitter&#x27; ||
-        k === &#x27;domainThrown&#x27; ||
-        k === &#x27;domain&#x27; ||
-        k === &#x27;domainBound&#x27;)
+    if (k === 'message' ||
+        k === 'domainEmitter' ||
+        k === 'domainThrown' ||
+        k === 'domain' ||
+        k === 'domainBound')
       return
     extra[k] = er[k]
   })
@@ -10569,8 +10562,8 @@ t.<span class="apidocCodeKeywordSpan">addAssert</span>(&#x27;ok&#x27;, 1, functi
     <li>description and source-code<pre class="apidocCodePre">fail = function () { [native code] }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 function decorate (t) {
-t.addAssert(&#x27;ok&#x27;, 1, function (obj, message, extra) {
-  message = message || &#x27;expect truthy value&#x27;
+t.addAssert('ok', 1, function (obj, message, extra) {
+  message = message || 'expect truthy value'
   if (obj) {
     return this.pass(message, extra)
   }
@@ -10578,8 +10571,8 @@ t.addAssert(&#x27;ok&#x27;, 1, function (obj, message, extra) {
   return this.<span class="apidocCodeKeywordSpan">fail</span>(message, extra)
 })
 
-t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
-  message = message || &#x27;expect falsey value&#x27;
+t.addAssert('notOk', 1, function (obj, message, extra) {
+  message = message || 'expect falsey value'
   return this.ok(!obj, message, extra)
 })
 ...</pre></li>
@@ -10638,7 +10631,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     <li>description and source-code<pre class="apidocCodePre">function after(name, fn) {
   var suite = suiteStack[ suiteStack.length - 1 ]
   if (!suite)
-    throw new Error(&#x27;cannot call &#x22;after&#x22; outside of describe()&#x27;)
+    throw new Error('cannot call "after" outside of describe()')
   if (fn)
     suite.after.push([name, fn])
   else
@@ -10657,7 +10650,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function afterEach(fn) {
-  moment(&#x27;afterEach&#x27;, fn)
+  moment('afterEach', fn)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -10672,18 +10665,18 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function before(name, fn) {
-  if (typeof name === &#x27;function&#x27;)
+  if (typeof name === 'function')
     fn = name, name = null
-  if (fn &#x26;&#x26; fn.name &#x26;&#x26; !name)
+  if (fn &amp;&amp; fn.name &amp;&amp; !name)
     name = fn.name
   var todo = !fn
   var suite = suiteStack[ suiteStack.length - 1 ]
   var t = tapStack[ tapStack.length - 1 ]
   if (!name)
-    name = &#x27;&#x27;
+    name = ''
   t.test(name, { todo: todo, silent: true }, function (tt) {
     var ret = fn.call(suite, done(tt))
-    if (!ret &#x26;&#x26; fn.length === 0)
+    if (!ret &amp;&amp; fn.length === 0)
       tt.end()
     else
       return ret
@@ -10709,7 +10702,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function beforeEach(fn) {
-  moment(&#x27;beforeEach&#x27;, fn)
+  moment('beforeEach', fn)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -10771,18 +10764,18 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function it(name, fn) {
-  if (typeof name === &#x27;function&#x27;)
+  if (typeof name === 'function')
     fn = name, name = null
-  if (fn &#x26;&#x26; fn.name &#x26;&#x26; !name)
+  if (fn &amp;&amp; fn.name &amp;&amp; !name)
     name = fn.name
   var todo = !fn
   var suite = suiteStack[ suiteStack.length - 1 ]
   var t = tapStack[ tapStack.length - 1 ]
   if (!name)
-    name = &#x27;&#x27;
+    name = ''
   t.test(name, { todo: todo, tapMochaTest: true }, function (tt) {
     var ret = fn.call(tt, done(tt))
-    if (ret &#x26;&#x26; ret.then)
+    if (ret &amp;&amp; ret.then)
       return ret
     else if (fn.length === 0)
       tt.end()
@@ -10808,18 +10801,18 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function it(name, fn) {
-  if (typeof name === &#x27;function&#x27;)
+  if (typeof name === 'function')
     fn = name, name = null
-  if (fn &#x26;&#x26; fn.name &#x26;&#x26; !name)
+  if (fn &amp;&amp; fn.name &amp;&amp; !name)
     name = fn.name
   var todo = !fn
   var suite = suiteStack[ suiteStack.length - 1 ]
   var t = tapStack[ tapStack.length - 1 ]
   if (!name)
-    name = &#x27;&#x27;
+    name = ''
   t.test(name, { todo: todo, tapMochaTest: true }, function (tt) {
     var ret = fn.call(tt, done(tt))
-    if (ret &#x26;&#x26; ret.then)
+    if (ret &amp;&amp; ret.then)
       return ret
     else if (fn.length === 0)
       tt.end()
@@ -10852,7 +10845,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     <li>description and source-code<pre class="apidocCodePre">function after(name, fn) {
   var suite = suiteStack[ suiteStack.length - 1 ]
   if (!suite)
-    throw new Error(&#x27;cannot call &#x22;after&#x22; outside of describe()&#x27;)
+    throw new Error('cannot call "after" outside of describe()')
   if (fn)
     suite.after.push([name, fn])
   else
@@ -10876,7 +10869,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function afterEach(fn) {
-  moment(&#x27;afterEach&#x27;, fn)
+  moment('afterEach', fn)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -10896,18 +10889,18 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function before(name, fn) {
-  if (typeof name === &#x27;function&#x27;)
+  if (typeof name === 'function')
     fn = name, name = null
-  if (fn &#x26;&#x26; fn.name &#x26;&#x26; !name)
+  if (fn &amp;&amp; fn.name &amp;&amp; !name)
     name = fn.name
   var todo = !fn
   var suite = suiteStack[ suiteStack.length - 1 ]
   var t = tapStack[ tapStack.length - 1 ]
   if (!name)
-    name = &#x27;&#x27;
+    name = ''
   t.test(name, { todo: todo, silent: true }, function (tt) {
     var ret = fn.call(suite, done(tt))
-    if (!ret &#x26;&#x26; fn.length === 0)
+    if (!ret &amp;&amp; fn.length === 0)
       tt.end()
     else
       return ret
@@ -10938,7 +10931,7 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function beforeEach(fn) {
-  moment(&#x27;beforeEach&#x27;, fn)
+  moment('beforeEach', fn)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -10978,18 +10971,18 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function it(name, fn) {
-  if (typeof name === &#x27;function&#x27;)
+  if (typeof name === 'function')
     fn = name, name = null
-  if (fn &#x26;&#x26; fn.name &#x26;&#x26; !name)
+  if (fn &amp;&amp; fn.name &amp;&amp; !name)
     name = fn.name
   var todo = !fn
   var suite = suiteStack[ suiteStack.length - 1 ]
   var t = tapStack[ tapStack.length - 1 ]
   if (!name)
-    name = &#x27;&#x27;
+    name = ''
   t.test(name, { todo: todo, tapMochaTest: true }, function (tt) {
     var ret = fn.call(tt, done(tt))
-    if (ret &#x26;&#x26; ret.then)
+    if (ret &amp;&amp; ret.then)
       return ret
     else if (fn.length === 0)
       tt.end()
@@ -11043,12 +11036,12 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function objToYaml(obj) {
   obj = cleanYamlObject(obj)
-  var y = &#x27;&#x27;
-  if (obj &#x26;&#x26; typeof obj === &#x27;object&#x27; &#x26;&#x26; Object.keys(obj).length) {
-    y = yaml.safeDump(obj).split(&#x27;\n&#x27;).map(function (l) {
-      return l.trim() ? &#x27;  &#x27; + l : l.trim()
-    }).join(&#x27;\n&#x27;)
-    y = &#x27;  ---\n&#x27; + y + &#x27;  ...\n&#x27;
+  var y = ''
+  if (obj &amp;&amp; typeof obj === 'object' &amp;&amp; Object.keys(obj).length) {
+    y = yaml.safeDump(obj).split('\n').map(function (l) {
+      return l.trim() ? '  ' + l : l.trim()
+    }).join('\n')
+    y = '  ---\n' + y + '  ...\n'
   }
 
   return y
@@ -11166,8 +11159,8 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
 exports.decorate = decorate
 
 function decorate (t) {
-t.addAssert(&#x27;ok&#x27;, 1, function (obj, message, extra) {
-  message = message || &#x27;expect truthy value&#x27;
+t.addAssert('ok', 1, function (obj, message, extra) {
+  message = message || 'expect truthy value'
   if (obj) {
     return this.<span class="apidocCodeKeywordSpan">pass</span>(message, extra)
   }
@@ -11175,8 +11168,8 @@ t.addAssert(&#x27;ok&#x27;, 1, function (obj, message, extra) {
   return this.fail(message, extra)
 })
 
-t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
-  message = message || &#x27;expect falsey value&#x27;
+t.addAssert('notOk', 1, function (obj, message, extra) {
+  message = message || 'expect falsey value'
 ...</pre></li>
     </ul>
 
@@ -11249,13 +11242,13 @@ t.addAssert(&#x27;notOk&#x27;, 1, function (obj, message, extra) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function TestPoint(ok, message, extra) {
-  if (typeof ok !== &#x27;boolean&#x27;)
-    throw new TypeError(&#x27;ok must be boolean&#x27;)
+  if (typeof ok !== 'boolean')
+    throw new TypeError('ok must be boolean')
 
   if (!(this instanceof TestPoint))
     return new TestPoint(ok, message, extra)
 
-  this.ok = ok ? &#x27;ok &#x27; : &#x27;not ok &#x27;
+  this.ok = ok ? 'ok ' : 'not ok '
   this.message = tpMessage(message, extra)
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -11358,7 +11351,7 @@ function multiword_ (str) {
   if (str.match(/[A-Z]/)) {
     res.<span class="apidocCodeKeywordSpan">push</span>(str.toLowerCase())
     res.push(str.replace(/[A-Z]/g, function ($0) {
-      return &#x27;_&#x27; + $0.toLowerCase()
+      return '_' + $0.toLowerCase()
     }))
   }
   return res
@@ -11458,7 +11451,7 @@ function multiword_ (str) {
   }
 
   // Most call sites will return the source file from getFileName(), but code
-  // passed to eval() ending in &#x22;//# sourceURL=...&#x22; will return the source file
+  // passed to eval() ending in "//# sourceURL=..." will return the source file
   // from getScriptNameOrSourceURL() instead
   var source = frame.getFileName() || frame.getScriptNameOrSourceURL();
   if (source) {
@@ -11467,7 +11460,7 @@ function multiword_ (str) {
 
     // Fix position in Node where some (internal) code is prepended.
     // See https://github.com/evanw/node-source-map-support/issues/36
-    if (line === 1 &#x26;&#x26; !isInBrowser() &#x26;&#x26; !frame.isEval()) {
+    if (line === 1 &amp;&amp; !isInBrowser() &amp;&amp; !frame.isEval()) {
       column -= 62;
     }
 
@@ -11485,7 +11478,7 @@ function multiword_ (str) {
   }
 
   // Code called using eval() needs special handling
-  var origin = frame.isEval() &#x26;&#x26; frame.getEvalOrigin();
+  var origin = frame.isEval() &amp;&amp; frame.getEvalOrigin();
   if (origin) {
     origin = mapEvalOrigin(origin);
     frame = cloneCallSite(frame);
@@ -11596,16 +11589,16 @@ function multiword_ (str) {
   return false
 }
 
-return !(propertyName === &#x27;todo&#x27; ||
-propertyName === &#x27;time&#x27; ||
+return !(propertyName === 'todo' ||
+propertyName === 'time' ||
 /^_?tapChild/.<span class="apidocCodeKeywordSpan">test</span>(propertyName) ||
 /^tapStream/.test(propertyName) ||
 /^tapMochaTest/.test(propertyName) ||
-propertyName === &#x27;cb&#x27; ||
-propertyName === &#x27;name&#x27; ||
-propertyName === &#x27;indent&#x27; ||
-propertyName === &#x27;skip&#x27; ||
-propertyName === &#x27;bail&#x27; ||
+propertyName === 'cb' ||
+propertyName === 'name' ||
+propertyName === 'indent' ||
+propertyName === 'skip' ||
+propertyName === 'bail' ||
 ...</pre></li>
     </ul>
 
@@ -11672,3 +11665,4 @@ propertyName === &#x27;bail&#x27; ||
     ]
 </div>
 </div>
+</body></html>
