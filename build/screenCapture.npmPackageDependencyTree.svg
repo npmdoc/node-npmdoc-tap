@@ -299,10 +299,10 @@
 <tspan x="10" y="4746">  ├── signal-exit@3.0.2 </tspan>
 <tspan x="10" y="4762">  ├─┬ source-map-support@0.4.14 </tspan>
 <tspan x="10" y="4778">  │ └── source-map@0.5.6 </tspan>
-<tspan x="10" y="4794">  ├── stack-utils@1.0.0 </tspan>
+<tspan x="10" y="4794">  ├── stack-utils@1.0.1 </tspan>
 <tspan x="10" y="4810">  ├─┬ tap-mocha-reporter@3.0.3 </tspan>
-<tspan x="10" y="4826">  │ ├─┬ debug@2.6.3 </tspan>
-<tspan x="10" y="4842">  │ │ └── ms@0.7.2 </tspan>
+<tspan x="10" y="4826">  │ ├─┬ debug@2.6.4 </tspan>
+<tspan x="10" y="4842">  │ │ └── ms@0.7.3 </tspan>
 <tspan x="10" y="4858">  │ ├── diff@1.4.0 </tspan>
 <tspan x="10" y="4874">  │ ├── escape-string-regexp@1.0.5 </tspan>
 <tspan x="10" y="4890">  │ └─┬ unicode-length@1.0.3 </tspan>
